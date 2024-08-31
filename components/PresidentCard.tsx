@@ -6,10 +6,9 @@ import { President } from '../models/presidents'
 interface PresidentCardProps {
   president: President
   nextPresidentImage?: string
-  priority?: boolean
 }
 
-const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentImage, priority = false }) => {
+const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentImage}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const images = [president.imageURL, ...(president.alternativeImages || [])]
 
@@ -28,12 +27,8 @@ const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentI
           alt={`Photo of ${president.name}`}
           fill
           style={{ objectFit: 'contain' }}
-          priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        {nextPresidentImage && (
-          <link rel="preload" as="image" href={nextPresidentImage} />
-        )}
       </div>
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">{president.name}</h2>

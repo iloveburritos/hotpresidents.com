@@ -1,10 +1,11 @@
 // pages/vote/[shortname].tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 import Layout from '../../components/Layout'
 import PresidentCard from '../../components/PresidentCard'
 import VoteButtons from '../../components/VoteButtons'
-import { fetchPresidents, fetchPresidentShortname, fetchNextPresident, fetchRandomPresident } from '../../lib/presidents'
+import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents'
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../contexts/PrefetchStats'
@@ -22,14 +23,20 @@ const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
     router.push(`/stats/${president.shortname}`)
   }
 
+  useEffect(() => {
+    const img = new Image()
+    img.src = nextPresident.imageURL
+  }, [nextPresident.imageURL])
+
   return (
     <Layout>
+      <Head>
+        <link rel="preload" as="image" href={nextPresident.imageURL} />
+      </Head>
       {president && (
         <>
           <PresidentCard 
             president={president} 
-            nextPresidentImage={nextPresident.imageURL} 
-            priority={true} // Set priority for the first image
           />
           <VoteButtons president={president} onVoteSuccess={handleVoteSuccess} />
         </>

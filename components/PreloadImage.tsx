@@ -8,10 +8,9 @@ interface PreloadImageProps {
   src: string
   preloadSrc?: string
   alt: string
-  priority?: boolean
 }
 
-export default function PreloadImage({ src, preloadSrc, alt, priority = false }: PreloadImageProps) {
+export default function PreloadImage({ src, preloadSrc, alt }: PreloadImageProps) {
   const [imageSrc, setImageSrc] = useState(src)
 
   useEffect(() => {
@@ -33,8 +32,6 @@ export default function PreloadImage({ src, preloadSrc, alt, priority = false }:
         layout="fill"
         objectFit="contain"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        loading={priority ? "eager" : "lazy"}
-        priority={priority}
       />
     </div>
   )
