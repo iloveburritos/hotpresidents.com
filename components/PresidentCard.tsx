@@ -26,10 +26,10 @@ const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentI
         <Image
           src={images[currentImageIndex]}
           alt={`Photo of ${president.name}`}
-          layout="fill"
-          objectFit="contain"
+          fill
+          style={{ objectFit: 'contain' }}
           priority={priority}
-          loading={priority ? "eager" : "lazy"}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {nextPresidentImage && (
           <link rel="preload" as="image" href={nextPresidentImage} />

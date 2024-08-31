@@ -2,7 +2,6 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
-import {Analytics} from '@vercel/analytics/react';
 
 interface LayoutProps {
     children: ReactNode;
@@ -49,7 +48,6 @@ const Layout: React.FC<LayoutProps> = ({
             </Script>
             <main>
                 <div id="container">{children}</div>
-                <Analytics />
             </main>
         </>
     );
