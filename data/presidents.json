@@ -3,7 +3,7 @@
         "id": "1",
         "name": "George Washington",
         "office": "President",
-        "imageURL": "/images/presidents/GW_Glasses.webp",
+        "imageURL": "/images/presidents/GW_Glasses.png",
         "quote": "Popping Cherry Trees since 1776",
         "yearsInOffice": "1789-1797",
         "shortname": "washington",
@@ -13,19 +13,19 @@
         "id": "2",
         "name": "Thomas Jefferson",
         "office": "President",
-        "imageURL": "/images/presidents/thomasjefferson.webp",
+        "imageURL": "/images/presidents/thomasjefferson.png",
         "quote": "Most frequent guest on \"Maury\"",
         "yearsInOffice": "1801-1809",
         "shortname": "jefferson",
         "alternativeImages": [
-            "/images/presidents/thomasjefferson2.webp"
+            "/images/presidents/thomasjefferson2.png"
         ]
     },
     {
         "id": "3",
         "name": "James Madison",
         "office": "President",
-        "imageURL": "/images/presidents/jamesmadison.webp",
+        "imageURL": "/images/presidents/jamesmadison.png",
         "quote": "Father of Billy, husband of Ashley",
         "yearsInOffice": "1809-1817",
         "shortname": "madison",
@@ -35,7 +35,7 @@
         "id": "4",
         "name": "James Monroe",
         "office": "President",
-        "imageURL": "/images/presidents/jamesmonroe.webp",
+        "imageURL": "/images/presidents/jamesmonroe.png",
         "quote": "Make butt chins great again\n",
         "yearsInOffice": "1817-1825",
         "shortname": "monroe",
@@ -45,7 +45,7 @@
         "id": "5",
         "name": "Martin Van Buren",
         "office": "President",
-        "imageURL": "/images/presidents/martinvanburen5.webp",
+        "imageURL": "/images/presidents/martinvanburen5.png",
         "quote": "No thank you, I think my hair is just fine like this",
         "yearsInOffice": "1837-1841",
         "shortname": "vanburen",
@@ -55,7 +55,7 @@
         "id": "6",
         "name": "William Henry Harrison",
         "office": "President",
-        "imageURL": "/images/presidents/williamhenryharrison.webp",
+        "imageURL": "/images/presidents/williamhenryharrison.png",
         "quote": "In office for less than 3 Scaramuccis",
         "yearsInOffice": "1841",
         "shortname": "harrison",
@@ -65,7 +65,7 @@
         "id": "7",
         "name": "Zachary Taylor",
         "office": "President",
-        "imageURL": "/images/presidents/zacharytaylor.webp",
+        "imageURL": "/images/presidents/zacharytaylor.png",
         "quote": "Member of US's first boy band",
         "yearsInOffice": "1849-1850",
         "shortname": "taylor",
@@ -75,7 +75,7 @@
         "id": "8",
         "name": "James Buchanan",
         "office": "President",
-        "imageURL": "/images/presidents/jamebuchanan.webp",
+        "imageURL": "/images/presidents/jamebuchanan.png",
         "quote": "Inspiration for Hannibal Lecter",
         "yearsInOffice": "1857-1861",
         "shortname": "buchanan",
@@ -85,19 +85,19 @@
         "id": "9",
         "name": "Abraham Lincoln",
         "office": "President",
-        "imageURL": "/images/presidents/abelincoln.webp",
+        "imageURL": "/images/presidents/abelincoln.png",
         "quote": "Kind of a big deal",
         "yearsInOffice": "1861-1865",
         "shortname": "lincoln",
         "alternativeImages": [
-            "/images/presidents/abelincoln2.webp"
+            "/images/presidents/abelincoln2.png"
         ]
     },
     {
         "id": "10",
         "name": "Andrew Johnson",
         "office": "President",
-        "imageURL": "/images/presidents/andrewjohnson.webp",
+        "imageURL": "/images/presidents/andrewjohnson.png",
         "quote": "Colloquially known as Andrew 'Penis'",
         "yearsInOffice": "1865-1869",
         "shortname": "johnson",
@@ -107,7 +107,7 @@
         "id": "11",
         "name": "Ulysses S. Grant",
         "office": "President",
-        "imageURL": "/images/presidents/Grant.webp",
+        "imageURL": "/images/presidents/Grant.png",
         "quote": "The S stands for \"Steal yo girl\"",
         "yearsInOffice": "1869-1877",
         "shortname": "grant",
@@ -117,17 +117,17 @@
         "id": "12",
         "name": "James A. Garfield",
         "office": "President",
-        "imageURL": "/images/presidents/jamesgarfield2.webp",
+        "imageURL": "/images/presidents/jamesgarfield2.png",
         "quote": "Not as popular as the cat",
         "yearsInOffice": "1881",
         "shortname": "garfield",
-        "alternativeImages": ["/images/presidents/jamesgarfield.webp"]
+        "alternativeImages": ["/images/presidents/jamesgarfield.png"]
     },
     {
         "id": "13",
         "name": "William McKinley",
         "office": "President",
-        "imageURL": "/images/presidents/williammckinley.webp",
+        "imageURL": "/images/presidents/williammckinley.png",
         "quote": "Who wouldn't want to Mount McKinley?",
         "yearsInOffice": "1897-1901",
         "shortname": "mckinley",
@@ -137,32 +137,32 @@
         "id": "14",
         "name": "Theodore Roosevelt",
         "office": "President",
-        "imageURL": "/images/presidents/theodoreroosevelt3.webp",
+        "imageURL": "/images/presidents/theodoreroosevelt3.png",
         "quote": "Big stick energy\n",
         "yearsInOffice": "1901-1909",
         "shortname": "roosevelt",
         "alternativeImages": [
-            "/images/presidents/theodoreroosevelt.webp",
-            "/images/presidents/theodoreroosevelt2.webp"
+            "/images/presidents/theodoreroosevelt.png",
+            "/images/presidents/theodoreroosevelt2.png"
         ]
     },
     {
         "id": "15",
         "name": "William Howard Taft",
         "office": "President",
-        "imageURL": "/images/presidents/williamtaft2.webp",
+        "imageURL": "/images/presidents/williamtaft2.png",
         "quote": "Big name, big guy, big tub ",
         "yearsInOffice": "1909-1913",
         "shortname": "taft",
         "alternativeImages": [
-            "/images/presidents/williamtaft.webp"
+            "/images/presidents/williamtaft.png"
         ]
     },
     {
         "id": "16",
         "name": "Woodrow Wilson",
         "office": "President",
-        "imageURL": "/images/presidents/woodrowwilson.webp",
+        "imageURL": "/images/presidents/woodrowwilson.png",
         "quote": "Totally not a racist",
         "yearsInOffice": "1913-1921",
         "shortname": "wilson",
@@ -172,7 +172,7 @@
         "id": "17",
         "name": "Warren G. Harding",
         "office": "President",
-        "imageURL": "/images/presidents/warrenharding.webp",
+        "imageURL": "/images/presidents/warrenharding.png",
         "quote": "Full name Warren G-Spot Harding",
         "yearsInOffice": "1921-1923",
         "shortname": "harding",
@@ -182,7 +182,7 @@
         "id": "18",
         "name": "Herbert Hoover",
         "office": "President",
-        "imageURL": "/images/presidents/herberthoover.webp",
+        "imageURL": "/images/presidents/herberthoover.png",
         "quote": "Lost his second term to dustbuster",
         "yearsInOffice": "1929-1933",
         "shortname": "hoover",
@@ -192,32 +192,32 @@
         "id": "19",
         "name": "Franklin D. Roosevelt",
         "office": "President",
-        "imageURL": "/images/presidents/franklinroosevelt2.webp",
+        "imageURL": "/images/presidents/franklinroosevelt2.png",
         "quote": "A real dime piece",
         "yearsInOffice": "1933-1945",
         "shortname": "fdr",
         "alternativeImages": [
-            "/images/presidents/franklinroosevelt.webp"
+            "/images/presidents/franklinroosevelt.png"
         ]
     },
     {
         "id": "20",
         "name": "Dwight D. Eisenhower",
         "office": "President",
-        "imageURL": "/images/presidents/dwighteisenhower.webp",
+        "imageURL": "/images/presidents/dwighteisenhower.png",
         "quote": "Se\u00f1or Aardvark",
         "yearsInOffice": "1953-1961",
         "shortname": "eisenhower",
         "alternativeImages": [
-            "/images/presidents/dwighteisenhower2.webp",
-            "/images/presidents/dwighteisenhower3.webp"
+            "/images/presidents/dwighteisenhower2.png",
+            "/images/presidents/dwighteisenhower3.png"
         ]
     },
     {
         "id": "21",
         "name": "John F. Kennedy",
         "office": "President",
-        "imageURL": "/images/presidents/jfk.webp",
+        "imageURL": "/images/presidents/jfk.png",
         "quote": "There's only one right answer",
         "yearsInOffice": "1961-1963",
         "shortname": "kennedy",
@@ -227,7 +227,7 @@
         "id": "22",
         "name": "Lyndon B. Johnson",
         "office": "President",
-        "imageURL": "/images/presidents/lyndonjohnson.webp",
+        "imageURL": "/images/presidents/lyndonjohnson.png",
         "quote": "The second most famous LBJ",
         "yearsInOffice": "1963-1969",
         "shortname": "lbjohnson",
@@ -237,7 +237,7 @@
         "id": "23",
         "name": "Richard Nixon",
         "office": "President",
-        "imageURL": "/images/presidents/nixon.webp",
+        "imageURL": "/images/presidents/nixon.png",
         "quote": "Wasn\u2019t impeached even once",
         "yearsInOffice": "1969-1974",
         "shortname": "nixon",
@@ -247,7 +247,7 @@
         "id": "24",
         "name": "Ronald Reagan",
         "office": "President",
-        "imageURL": "/images/presidents/ronaldreagan.webp",
+        "imageURL": "/images/presidents/ronaldreagan.png",
         "quote": "Spent 6 years plotting against solar panels\n",
         "yearsInOffice": "1981-1989",
         "shortname": "reagan",
@@ -257,7 +257,7 @@
         "id": "25",
         "name": "George H. W. Bush",
         "office": "President",
-        "imageURL": "/images/presidents/georgehwbush.webp",
+        "imageURL": "/images/presidents/georgehwbush.png",
         "quote": "Big Bush",
         "yearsInOffice": "1989-1993",
         "shortname": "ghwbush",
@@ -267,7 +267,7 @@
         "id": "26",
         "name": "Bill Clinton",
         "office": "President",
-        "imageURL": "/images/presidents/billclinton2.webp",
+        "imageURL": "/images/presidents/billclinton2.png",
         "quote": "\"You're going to love interning here\"",
         "yearsInOffice": "1993-2001",
         "shortname": "clinton",
@@ -277,7 +277,7 @@
         "id": "27",
         "name": "George W. Bush",
         "office": "President",
-        "imageURL": "/images/presidents/georgebush.webp",
+        "imageURL": "/images/presidents/georgebush.png",
         "quote": "Waterboarding > Waterskiing",
         "yearsInOffice": "2001-2009",
         "shortname": "gwbush",
@@ -287,7 +287,7 @@
         "id": "28",
         "name": "Barack Obama",
         "office": "President",
-        "imageURL": "/images/presidents/obama.webp",
+        "imageURL": "/images/presidents/obama.png",
         "quote": "Michelle's husband",
         "yearsInOffice": "2009-2017",
         "shortname": "obama",
@@ -297,7 +297,7 @@
         "id": "29",
         "name": "Selina Meyer",
         "office": "Vice President",
-        "imageURL": "/images/presidents/veep.webp",
+        "imageURL": "/images/presidents/veep.png",
         "quote": "Still waiting for the president to call",
         "yearsInOffice": "2012-2015",
         "shortname": "meyer",
@@ -307,32 +307,32 @@
         "id": "30",
         "name": "Donald Trump",
         "office": "President",
-        "imageURL": "/images/presidents/donaldtrump.webp",
+        "imageURL": "/images/presidents/donaldtrump.png",
         "quote": "REALLY likes one of his daughters",
         "yearsInOffice": "2017-2021",
         "shortname": "trump",
         "alternativeImages": [
-            "/images/presidents/donaldtrump2.webp",
-            "/images/presidents/donaldtrump3.webp"
+            "/images/presidents/donaldtrump2.png",
+            "/images/presidents/donaldtrump3.png"
         ]
     },
     {
         "id": "31",
         "name": "Joe Biden",
         "office": "President",
-        "imageURL": "/images/presidents/joebiden3.webp",
+        "imageURL": "/images/presidents/joebiden3.png",
         "quote": "Barack's best friend",
         "yearsInOffice": "2021-",
         "shortname": "biden",
         "alternativeImages": [
-            "/images/presidents/joebiden.webp"
+            "/images/presidents/joebiden.png"
         ]
     },
     {
         "id": "32",
         "name": "George Clinton",
         "office": "Vice President",
-        "imageURL": "/images/presidents/georgeclinton.webp",
+        "imageURL": "/images/presidents/georgeclinton.png",
         "quote": "Somehow less attractive than the other George Clinton",
         "yearsInOffice": "1805-1812",
         "shortname": "georgeclinton",
@@ -342,7 +342,7 @@
         "id": "33",
         "name": "Elbridge Gerry",
         "office": "Vice President",
-        "imageURL": "/images/presidents/elbridgegerry.webp",
+        "imageURL": "/images/presidents/elbridgegerry.png",
         "quote": "The last known person to be named Elbridge",
         "yearsInOffice": "1813-1814",
         "shortname": "gerry",
@@ -352,7 +352,7 @@
         "id": "34",
         "name": "John C. Calhoun",
         "office": "Vice President",
-        "imageURL": "/images/presidents/Calhoun.webp",
+        "imageURL": "/images/presidents/Calhoun.png",
         "quote": "Lord of the undead",
         "yearsInOffice": "1825-1832",
         "shortname": "calhoun",
@@ -362,7 +362,7 @@
         "id": "35",
         "name": "George M. Dallas",
         "office": "Vice President",
-        "imageURL": "/images/presidents/georgedallas.webp",
+        "imageURL": "/images/presidents/georgedallas.png",
         "quote": "Who? ",
         "yearsInOffice": "1845-1849",
         "shortname": "dallas",
@@ -372,31 +372,31 @@
         "id": "36",
         "name": "Hannibal Hamlin",
         "office": "Vice President",
-        "imageURL": "/images/presidents/hannibalhamlin.webp",
+        "imageURL": "/images/presidents/hannibalhamlin.png",
         "quote": "IT RUBS THE LOTION ON ITS SKIN",
         "yearsInOffice": "1861-1865",
         "shortname": "hamlin",
         "alternativeImages": [
-            "/images/presidents/hannibalhamlin2.webp"
+            "/images/presidents/hannibalhamlin2.png"
         ]
     },
     {
         "id": "37",
         "name": "Nelson Rockefeller",
         "office": "Vice President",
-        "imageURL": "/images/presidents/nelsonrockefeller.webp",
+        "imageURL": "/images/presidents/nelsonrockefeller.png",
         "quote": "It's a position of merit",
         "yearsInOffice": "1974-1977",
         "shortname": "rockefeller",
         "alternativeImages": [
-            "/images/presidents/nelsonrockefeller2.webp"
+            "/images/presidents/nelsonrockefeller2.png"
         ]
     },
     {
         "id": "38",
         "name": "Dan Quayle",
         "office": "Vice President",
-        "imageURL": "/images/presidents/DanQuayle.webp",
+        "imageURL": "/images/presidents/DanQuayle.png",
         "quote": "Can't spell potato",
         "yearsInOffice": "1989-1993",
         "shortname": "quayle",
@@ -406,7 +406,7 @@
         "id": "39",
         "name": "Al Gore",
         "office": "Vice President",
-        "imageURL": "/images/presidents/algore3.webp",
+        "imageURL": "/images/presidents/algore3.png",
         "quote": "Still salty about Florida",
         "yearsInOffice": "1993-2001",
         "shortname": "gore",
@@ -416,19 +416,19 @@
         "id": "40",
         "name": "Dick Cheney",
         "office": "Vice President",
-        "imageURL": "/images/presidents/dickcheney.webp",
+        "imageURL": "/images/presidents/dickcheney.png",
         "quote": "Just looking for a friend to go hunting with",
         "yearsInOffice": "2001-2009",
         "shortname": "cheney",
         "alternativeImages": [
-            "/images/presidents/dickcheny2.webp"
+            "/images/presidents/dickcheny2.png"
         ]
     },
     {
         "id": "41",
         "name": "Mike Pence",
         "office": "Vice President",
-        "imageURL": "/images/presidents/flymikepence.webp",
+        "imageURL": "/images/presidents/flymikepence.png",
         "quote": "Popular vacation spot for flies",
         "yearsInOffice": "2017-2021",
         "shortname": "pence",
@@ -438,12 +438,12 @@
         "id": "42",
         "name": "Kamala Harris",
         "office": "Vice President",
-        "imageURL": "/images/presidents/kamalaharris2.webp",
+        "imageURL": "/images/presidents/kamalaharris2.png",
         "quote": "Loves venn diagrams",
         "yearsInOffice": "2021-",
         "shortname": "kamala",
         "alternativeImages": [
-            "/images/presidents/kamalaharris.webp"
+            "/images/presidents/kamalaharris.png"
         ]
     }
 ]
