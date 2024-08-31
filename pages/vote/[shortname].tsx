@@ -1,10 +1,10 @@
 // pages/vote/[shortname].tsx
-import React, { useEffect } from 'react'
+import React from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
 import PresidentCard from '../../components/PresidentCard'
 import VoteButtons from '../../components/VoteButtons'
-import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents'
+import { fetchPresidents, fetchPresidentShortname, fetchNextPresident, fetchRandomPresident } from '../../lib/presidents'
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../contexts/PrefetchStats'
@@ -18,32 +18,6 @@ const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
   const router = useRouter()
   const { setPrefetchedData, prefetchedData } = usePrefetch()
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch(`/api/stats?id=${president.id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          setPrefetchedData(prev => ({ ...prev, [president.id]: data }))
-        } else {
-          console.error(`Failed to fetch stats for president ${president.id}`)
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error)
-      }
-    }
-
-    if (president) {
-      fetchStats()
-    }
-  }, [president, setPrefetchedData])
-
   const handleVoteSuccess = () => {
     router.push(`/stats/${president.shortname}`)
   }
@@ -52,7 +26,11 @@ const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
     <Layout>
       {president && (
         <>
-          <PresidentCard president={president} nextPresidentImage={nextPresident.imageURL} />
+          <PresidentCard 
+            president={president} 
+            nextPresidentImage={nextPresident.imageURL} 
+            priority={true} // Set priority for the first image
+          />
           <VoteButtons president={president} onVoteSuccess={handleVoteSuccess} />
         </>
       )}

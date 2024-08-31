@@ -11,7 +11,7 @@ interface StatsDisplayProps {
 const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) => {
     const [hot, setHot] = useState<number>(0);
     const [not, setNot] = useState<number>(0);
-    const { prefetchedData} = usePrefetch();
+    const { prefetchedData } = usePrefetch();
 
     useEffect(() => {
         const fetchStats = async () => {

@@ -9,7 +9,7 @@ interface VoteButtonsProps {
 }
 
 const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) => {
-    const { setPrefetchedData, prefetchedData } = usePrefetch();
+    const { setPrefetchedData } = usePrefetch();
 
     const handleVote = async (voteType: 'hot' | 'not') => {
         try {
@@ -22,17 +22,15 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
             });
 
             if (response.ok) {
-                setPrefetchedData((prev) => {
-                    const updatedStats = {
+                // Instead of updating the count locally, we'll fetch the updated stats
+                const statsResponse = await fetch(`/api/stats?id=${president.id}`);
+                if (statsResponse.ok) {
+                    const updatedStats = await statsResponse.json();
+                    setPrefetchedData(prev => ({
                         ...prev,
-                        [president.id]: {
-                            ...prev[president.id],
-                            hot: voteType === 'hot' ? prev[president.id].hot + 1 : prev[president.id].hot,
-                            not: voteType === 'not' ? prev[president.id].not + 1 : prev[president.id].not,
-                        },
-                    };
-                    return updatedStats;
-                });
+                        [president.id]: updatedStats
+                    }));
+                }
                 onVoteSuccess(voteType);
             } else {
                 console.error(`Failed to vote ${voteType} for president ${president.id}`);

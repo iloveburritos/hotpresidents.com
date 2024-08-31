@@ -2,14 +2,16 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Image, { ImageProps } from 'next/image'
+import Image from 'next/image'
 
-interface PreloadImageProps extends Omit<ImageProps, 'src'> {
+interface PreloadImageProps {
   src: string
   preloadSrc?: string
+  alt: string
+  priority?: boolean
 }
 
-export default function PreloadImage({ src, preloadSrc, ...props }: PreloadImageProps) {
+export default function PreloadImage({ src, preloadSrc, alt, priority = false }: PreloadImageProps) {
   const [imageSrc, setImageSrc] = useState(src)
 
   useEffect(() => {
@@ -23,5 +25,17 @@ export default function PreloadImage({ src, preloadSrc, ...props }: PreloadImage
     }
   }, [preloadSrc])
 
-  return <Image src={imageSrc} {...props} />
+  return (
+    <div className="relative w-full pt-[75%]">
+      <Image
+        src={imageSrc}
+        alt={alt}
+        layout="fill"
+        objectFit="contain"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        loading={priority ? "eager" : "lazy"}
+        priority={priority}
+      />
+    </div>
+  )
 }

@@ -1,14 +1,15 @@
 // components/PresidentCard.tsx
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { President } from '../models/presidents'
-import PreloadImage from './PreloadImage'
 
 interface PresidentCardProps {
   president: President
   nextPresidentImage?: string
+  priority?: boolean
 }
 
-const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentImage }) => {
+const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentImage, priority = false }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const images = [president.imageURL, ...(president.alternativeImages || [])]
 
@@ -17,21 +18,27 @@ const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentI
   }
 
   return (
-    <div id="container">
-      <div id="img-container" onClick={nextImage}>
-        <PreloadImage
+    <div className="max-w-md mx-auto p-4">
+      <div 
+        onClick={nextImage} 
+        className="cursor-pointer mb-4 bg-gray-100 rounded-lg overflow-hidden relative aspect-[4/3]"
+      >
+        <Image
           src={images[currentImageIndex]}
-          preloadSrc={nextPresidentImage}
           alt={`Photo of ${president.name}`}
-          width={300}
-          height={400}
-          layout="responsive"
+          layout="fill"
+          objectFit="contain"
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
         />
+        {nextPresidentImage && (
+          <link rel="preload" as="image" href={nextPresidentImage} />
+        )}
       </div>
-      <div id="subtext-container">
-        <h2>{president.name}</h2>
-        <p>{president.office}: {president.yearsInOffice}</p>
-        <p>{president.quote || "Oh Notus - no quote available"}</p>
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-2">{president.name}</h2>
+        <p className="text-lg mb-2">{president.office}: {president.yearsInOffice}</p>
+        <p className="text-md italic">{president.quote || "Oh Notus - no quote available"}</p>
       </div>
     </div>
   )
