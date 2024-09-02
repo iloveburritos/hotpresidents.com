@@ -1,12 +1,20 @@
 // components/PresidentCard.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { President } from '../models/presidents';
+import Image from 'next/image'
 
 interface PresidentCardProps {
     president: President;
+    nextPresidentImage?: string;
 }
 
-const PresidentCard: React.FC<PresidentCardProps> = ({ president }) => {
+const PresidentCard: React.FC<PresidentCardProps> = ({ president, nextPresidentImage }) => {
+        const [currentImageIndex, setCurrentImageIndex] = useState(0)
+        const images = [president.imageURL, ...(president.alternativeImages || [])]
+      
+        const nextImage = () => {
+          setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+        }
     return (
         <div id="container" >
             <div id="img-container">

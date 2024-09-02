@@ -22,25 +22,23 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
             });
 
             if (response.ok) {
-                setPrefetchedData((prev) => {
-                    const updatedStats = {
-                        ...prev,
-                        [president.id]: {
-                            ...prev[president.id],
-                            hot: voteType === 'hot' ? prev[president.id].hot + 1 : prev[president.id].hot,
-                            not: voteType === 'not' ? prev[president.id].not + 1 : prev[president.id].not,
-                        },
-                    };
-                    return updatedStats;
-                });
-                onVoteSuccess(voteType);
-            } else {
-                console.error(`Failed to vote ${voteType} for president ${president.id}`);
+            // Instead of updating the count locally, we'll fetch the updated stats
+            const statsResponse = await fetch(`/api/stats?id=${president.id}`);
+            if (statsResponse.ok) {
+                const updatedStats = await statsResponse.json();
+                setPrefetchedData(prev => ({
+                    ...prev,
+                    [president.id]: updatedStats
+                }));
             }
-        } catch (error) {
-            console.error('Error submitting vote:', error);
+            onVoteSuccess(voteType);
+        } else {
+            console.error(`Failed to vote ${voteType} for president ${president.id}`);
         }
-    };
+    } catch (error) {
+        console.error('Error submitting vote:', error);
+    }
+};
 
     return (
         <>
