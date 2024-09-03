@@ -8,15 +8,17 @@ import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../contexts/PrefetchStats'
+import dynamic from 'next/dynamic'
 
 interface VotePageProps {
   president: President
   nextPresident: President
 }
 
+const StatsDisplay = dynamic(() => import('../../components/StatsDisplay'))
+
 const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
   const router = useRouter()
-  const { setPrefetchedData, prefetchedData } = usePrefetch()
 
   const handleVoteSuccess = () => {
     router.push(`/stats/${president.shortname}`)
@@ -31,7 +33,7 @@ const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
     <Layout>
       {president && (
         <>
-          <PresidentCard president={president} nextPresidentImage={nextPresident.imageURL} />
+          <PresidentCard president={president} />
           <VoteButtons president={president} onVoteSuccess={handleVoteSuccess} />
         </>
       )}

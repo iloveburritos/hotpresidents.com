@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { President } from '../models/presidents';
 import { usePrefetch } from '../contexts/PrefetchStats';
+import useSWR from 'swr'; 
 
 interface StatsDisplayProps {
     president: President;
     onNextClick: () => void;
 }
+
 
 const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) => {
     const [hot, setHot] = useState<number>(0);
