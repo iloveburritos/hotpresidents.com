@@ -12,7 +12,7 @@ const PresidentCard: React.FC<PresidentCardProps> = ({ president }) => {
     return (
         <div id="container" >
             <div id="img-container">
-                <Image src={president.imageURL} alt={`Photo of ${president.name}`} width={500} height={500} />
+                <Image src={president.imageURL} alt={`Photo of ${president.name}`} width={500} height={500} priority />
             </div>
             <div id="subtext-container">
                 <h2>{president.name}</h2>
