@@ -7,15 +7,11 @@ import VoteButtons from '../../components/VoteButtons'
 import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents'
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
-import { usePrefetch } from '../../contexts/PrefetchStats'
-import dynamic from 'next/dynamic'
 
 interface VotePageProps {
   president: President
   nextPresident: President
 }
-
-const StatsDisplay = dynamic(() => import('../../components/StatsDisplay'))
 
 const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
   const router = useRouter()
