@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const { id } = req.query;
 
@@ -13,6 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
+                res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
                 res.status(200).json({ hot: data.hot, not: data.not });
             } else {
                 res.status(404).json({ error: 'President not found' });

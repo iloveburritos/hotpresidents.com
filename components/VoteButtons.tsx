@@ -1,5 +1,5 @@
 // components/VoteButtons.tsx
-import React from 'react';
+import React, { useCallback } from 'react';
 import { President } from '../models/presidents';
 import { usePrefetch } from '../contexts/PrefetchStats';
 
@@ -11,7 +11,7 @@ interface VoteButtonsProps {
 const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) => {
     const { setPrefetchedData, prefetchedData } = usePrefetch();
 
-    const handleVote = async (voteType: 'hot' | 'not') => {
+    const handleVote = useCallback(async (voteType: 'hot' | 'not') => {
         try {
             const response = await fetch('/api/vote', {
                 method: 'POST',
@@ -20,27 +20,31 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
                 },
                 body: JSON.stringify({ id: president.id, voteType }),
             });
-
-            if (response.ok) {
-                setPrefetchedData((prev) => {
-                    const updatedStats = {
-                        ...prev,
-                        [president.id]: {
-                            ...prev[president.id],
-                            hot: voteType === 'hot' ? prev[president.id].hot + 1 : prev[president.id].hot,
-                            not: voteType === 'not' ? prev[president.id].not + 1 : prev[president.id].not,
-                        },
-                    };
-                    return updatedStats;
-                });
-                onVoteSuccess(voteType);
-            } else {
-                console.error(`Failed to vote ${voteType} for president ${president.id}`);
+    
+            if (!response.ok) {
+                throw new Error(`Failed to vote ${voteType} for president ${president.id}`);
             }
+    
+            try {
+                const statsResponse = await fetch(`/api/stats?id=${president.id}`);
+                if (!statsResponse.ok) {
+                    throw new Error('Failed to fetch updated stats');
+                }
+    
+                const updatedStats = await statsResponse.json();
+                setPrefetchedData(prev => ({
+                    ...prev,
+                    [president.id]: updatedStats
+                }));
+            } catch (error) {
+                console.error('Error fetching updated stats:', error);
+            }
+    
+            onVoteSuccess(voteType);
         } catch (error) {
             console.error('Error submitting vote:', error);
         }
-    };
+    }, [president.id, onVoteSuccess, setPrefetchedData]);
 
     return (
         <>
@@ -57,4 +61,4 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
     );
 };
 
-export default VoteButtons;
+export default React.memo(VoteButtons);

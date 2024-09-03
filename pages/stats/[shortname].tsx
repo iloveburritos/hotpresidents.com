@@ -1,5 +1,5 @@
 // pages/stats/[shortname].tsx
-import React from 'react';
+import React, {useEffect} from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
 import PresidentCard from '../../components/PresidentCard';
@@ -7,6 +7,7 @@ import StatsDisplay from '../../components/StatsDisplay';
 import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents';
 import { President } from '../../models/presidents';
 import { useRouter } from 'next/router';
+import { usePrefetch } from '@/contexts/PrefetchStats';
 
 interface StatsPageProps {
     president: President;
@@ -14,7 +15,29 @@ interface StatsPageProps {
 }
 
 const StatsPage: React.FC<StatsPageProps> = ({ president, nextPresident }) => {
+    const {setPrefetchedData} = usePrefetch(); 
+
+    useEffect(() => {
+        const prefetchNextStats = async () => {
+          const res = await fetch(`/api/stats?id=${nextPresident.id}`)
+          const data = await res.json()
+          setPrefetchedData(prevData => ({
+            ...prevData,
+            [nextPresident.id]: data
+          }))
+        }
+    
+        prefetchNextStats()
+      }, [nextPresident.id, setPrefetchedData])
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = nextPresident.imageURL}, [nextPresident]);
+
     const router = useRouter();
+    useEffect(() => {
+        router.prefetch(`/vote/${nextPresident.shortname}`)
+      }, [nextPresident.shortname, router])
 
     const handleNextClick = () => {
         router.push(`/vote/${nextPresident.shortname}`);

@@ -7,7 +7,6 @@ import VoteButtons from '../../components/VoteButtons'
 import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents'
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
-import { usePrefetch } from '../../contexts/PrefetchStats'
 
 interface VotePageProps {
   president: President
@@ -16,43 +15,21 @@ interface VotePageProps {
 
 const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
   const router = useRouter()
-  const { setPrefetchedData, prefetchedData } = usePrefetch()
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch(`/api/stats?id=${president.id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          setPrefetchedData(prev => ({ ...prev, [president.id]: data }))
-        } else {
-          console.error(`Failed to fetch stats for president ${president.id}`)
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error)
-      }
-    }
-
-    if (president) {
-      fetchStats()
-    }
-  }, [president, setPrefetchedData])
 
   const handleVoteSuccess = () => {
     router.push(`/stats/${president.shortname}`)
   }
 
+  useEffect(() => {
+    const img = new Image()
+    img.src = nextPresident.imageURL
+  }, [nextPresident.imageURL])
+
   return (
     <Layout>
       {president && (
         <>
-          <PresidentCard president={president} nextPresidentImage={nextPresident.imageURL} />
+          <PresidentCard president={president} />
           <VoteButtons president={president} onVoteSuccess={handleVoteSuccess} />
         </>
       )}
