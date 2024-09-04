@@ -1,5 +1,8 @@
 // pages/_document.js
 import { Html, Head, Main, NextScript } from 'next/document';
+import {SpeedInsights} from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
+
 
 export default function Document() {
     return (
@@ -22,6 +25,8 @@ export default function Document() {
                 <Main />
             
                 <NextScript />
+                <Analytics mode={'production'} />;
+                <SpeedInsights />
                 </div>
             </body>
         </Html>
