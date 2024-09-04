@@ -17,7 +17,7 @@ const HomePage: React.FC<HomePageProps> = ({ randomShortName }) => {
 
     return (
         <Layout>
-            <p>Loading...</p>
+            <p>Hotus or Notus?</p>
         </Layout>
     );
 };

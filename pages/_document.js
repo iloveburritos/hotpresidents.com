@@ -25,7 +25,7 @@ export default function Document() {
                 <Main />
             
                 <NextScript />
-                <Analytics mode={'production'} />;
+                <Analytics mode={'production'} />
                 <SpeedInsights />
                 </div>
             </body>
