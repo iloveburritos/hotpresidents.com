@@ -1,9 +1,10 @@
 // lib/shuffle.ts
 export function shuffle<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
-  return shuffled;
+  return newArray;
 }
+
