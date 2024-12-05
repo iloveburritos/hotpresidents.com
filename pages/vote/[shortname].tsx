@@ -1,5 +1,5 @@
 // pages/vote/[shortname].tsx
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Layout from '../../components/Layout'
 import PresidentCard from '../../components/PresidentCard'
@@ -8,21 +8,30 @@ import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../hooks/usePrefetch'
+import { usePresidentManager } from '../../components/PresidentManager'
 
 interface VotePageProps {
   president: President
-  nextPresident: President
+  presidentsData: President[]
 }
 
-const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
+const VotePage: React.FC<VotePageProps> = ({ president, presidentsData }) => {
   const router = useRouter()
   const { setPrefetchedData } = usePrefetch()
+  const { getNextPresident } = usePresidentManager(president.id)
+  const [nextPresident, setNextPresident] = useState<President | null>(null)
+
+  useEffect(() => {
+    if (!nextPresident) {
+      setNextPresident(getNextPresident(presidentsData, president.id))
+    }
+  }, [president.id, presidentsData])
 
   useEffect(() => {
     // Prefetch both the next image and stats
     const prefetchData = async () => {
       const img = new Image()
-      img.src = nextPresident.imageURL
+      img.src = nextPresident?.imageURL || ''
       
       const statsResponse = await fetch(`/api/stats?id=${president.id}`)
       const statsData = await statsResponse.json()
@@ -64,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const shortname = context.params?.shortname as string
   const presidentFromFile = fetchPresidentShortname(shortname)
-  const nextPresident = fetchRandomPresident(presidentFromFile?.id)
+  const presidentsData = fetchPresidents()
 
   if (!presidentFromFile) {
     return { notFound: true }
@@ -73,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       president: presidentFromFile,
-      nextPresident,
+      presidentsData,
     },
   }
 }

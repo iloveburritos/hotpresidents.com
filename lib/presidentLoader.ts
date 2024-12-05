@@ -1,3 +1,5 @@
+// lib/presidentLoader.ts
+
 import { President } from "@/models/presidents";
 import { fetchRandomPresident } from "./presidents";
 

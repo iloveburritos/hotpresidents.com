@@ -5,6 +5,14 @@ import { President } from '../models/presidents';
 
 const STORAGE_KEY = 'presidentViewOrder';
 
+export function fetchPresidents(): President[] {
+    return presidentsData;
+}
+
+export function fetchPresidentShortname(shortname: string): President | undefined {
+    return presidentsData.find(president => president.shortname === shortname);
+}
+
 function getViewOrder(): string[] {
     if (typeof window === 'undefined') return [];
     const stored = window.sessionStorage.getItem(STORAGE_KEY);
