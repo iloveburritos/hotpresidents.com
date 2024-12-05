@@ -1,6 +1,7 @@
 // lib/firebase.ts
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { FirebaseApp, initializeApp } from 'firebase/app';
+import { getFirestore as getFirestoreSDK, Firestore } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -13,6 +14,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestoreSDK(app);
 
-export { db };
+export function subscribeToPresidentStats(presidentId: string, callback: (data: any) => void) {
+    const docRef = doc(db, 'hotpresidents', presidentId);
+    return onSnapshot(docRef, (doc) => {
+        if (doc.exists()) {
+            callback(doc.data());
+        }
+    });
+}
+

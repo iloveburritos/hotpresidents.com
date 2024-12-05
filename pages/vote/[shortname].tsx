@@ -7,6 +7,7 @@ import VoteButtons from '../../components/VoteButtons'
 import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents'
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
+import { usePrefetch } from '../../hooks/usePrefetch'
 
 interface VotePageProps {
   president: President
@@ -15,15 +16,29 @@ interface VotePageProps {
 
 const VotePage: React.FC<VotePageProps> = ({ president, nextPresident }) => {
   const router = useRouter()
+  const { setPrefetchedData } = usePrefetch()
+
+  useEffect(() => {
+    // Prefetch both the next image and stats
+    const prefetchData = async () => {
+      const img = new Image()
+      img.src = nextPresident.imageURL
+      
+      const statsResponse = await fetch(`/api/stats?id=${president.id}`)
+      const statsData = await statsResponse.json()
+      setPrefetchedData(prev => ({
+        ...prev,
+        [president.id]: statsData
+      }))
+    }
+
+    prefetchData()
+    router.prefetch(`/stats/${president.shortname}`)
+  }, [president, nextPresident, router, setPrefetchedData])
 
   const handleVoteSuccess = () => {
     router.push(`/stats/${president.shortname}`)
   }
-
-  useEffect(() => {
-    const img = new Image()
-    img.src = nextPresident.imageURL
-  }, [nextPresident.imageURL])
 
   return (
     <Layout>
