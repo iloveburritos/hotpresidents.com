@@ -3,7 +3,7 @@ import { fetchRandomPresident } from "./presidents";
 
 export class PresidentLoader {
   private preloadQueue: President[] = [];
-  private readonly QUEUE_SIZE = 2;
+  private readonly QUEUE_SIZE = 1;
   private imageCache: Map<string, HTMLImageElement> = new Map();
   private currentPresidentId?: string;
 
@@ -12,13 +12,11 @@ export class PresidentLoader {
   }
 
   private async initializeQueue() {
-    const loadPromises = [];
-    while (this.preloadQueue.length < this.QUEUE_SIZE) {
-      const president = fetchRandomPresident(this.currentPresidentId);
-      loadPromises.push(this.preloadPresidentAssets(president));
-      this.preloadQueue.push(president);
-    }
-    await Promise.all(loadPromises);
+    if (this.preloadQueue.length >= this.QUEUE_SIZE) return;
+
+    const president = fetchRandomPresident(this.currentPresidentId);
+    await this.preloadPresidentAssets(president);
+    this.preloadQueue.push(president);
   }
 
   private async preloadPresidentAssets(president: President) {

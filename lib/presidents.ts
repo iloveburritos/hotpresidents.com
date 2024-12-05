@@ -3,56 +3,52 @@ import presidentsData from '../data/presidents.json';
 import { shuffle } from './shuffle';
 import { President } from '../models/presidents';
 
-export function fetchPresidents(): President[] {
-    return presidentsData;
+const STORAGE_KEY = 'presidentViewOrder';
+
+function getViewOrder(): string[] {
+    if (typeof window === 'undefined') return [];
+    const stored = window.sessionStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
 }
 
-export function fetchPresidentShortname(shortname: string): President | undefined {
-    return presidentsData.find(president => president.shortname === shortname);
+function setViewOrder(order: string[]) {
+    if (typeof window === 'undefined') return;
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(order));
 }
 
-function getRecentlyViewed(): string[] {
-    if (typeof window !== 'undefined') {
-        const recentlyViewed = window.sessionStorage.getItem('recentlyViewedPresidents');
-        return recentlyViewed ? JSON.parse(recentlyViewed) : [];
-    }
-    return [];
-}
-
-function addRecentlyViewed(shortname: string) {
-    if (typeof window !== 'undefined') {
-        const recentlyViewed = getRecentlyViewed();
-        if (!recentlyViewed.includes(shortname)) {
-            recentlyViewed.push(shortname);
-            window.sessionStorage.setItem('recentlyViewedPresidents', JSON.stringify(recentlyViewed));
-        }
-    }
-}
-
-function resetRecentlyViewed() {
-    if (typeof window !== 'undefined') {
-        window.sessionStorage.removeItem('recentlyViewedPresidents');
-    }
+function generateNewOrder(): string[] {
+    return shuffle([...presidentsData]).map(p => p.shortname);
 }
 
 export function fetchRandomPresident(excludeId?: string): President {
-    const recentlyViewed = getRecentlyViewed();
+    let viewOrder = getViewOrder();
     
-    // Get unviewed presidents (excluding current)
-    const unviewedPresidents = presidentsData.filter(president => 
-        !recentlyViewed.includes(president.shortname) && 
-        president.id !== excludeId
-    );
+    // If we're at the end or haven't started, generate new shuffled order
+    if (viewOrder.length === 0) {
+        viewOrder = generateNewOrder();
+        setViewOrder(viewOrder);
+    }
 
-    // If we've seen all presidents, reset the list
-    if (unviewedPresidents.length === 0) {
-        resetRecentlyViewed();
+    // Find the next valid president
+    let nextPresident: President | undefined;
+    while (viewOrder.length > 0 && !nextPresident) {
+        const nextShortname = viewOrder[0];
+        const candidate = presidentsData.find(p => p.shortname === nextShortname);
+        
+        if (candidate && candidate.id !== excludeId) {
+            nextPresident = candidate;
+        }
+        // Remove this president from the order regardless
+        viewOrder = viewOrder.slice(1);
+    }
+
+    // If we couldn't find a valid president, generate new order and try again
+    if (!nextPresident) {
+        setViewOrder([]);
         return fetchRandomPresident(excludeId);
     }
 
-    // Get a random unviewed president
-    const randomPresident = shuffle(unviewedPresidents)[0];
-    addRecentlyViewed(randomPresident.shortname);
-    
-    return randomPresident;
+    // Save the updated order
+    setViewOrder(viewOrder);
+    return nextPresident;
 }
