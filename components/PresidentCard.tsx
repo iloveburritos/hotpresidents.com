@@ -7,20 +7,20 @@ interface PresidentCardProps {
     president: President;
 }
 
-const PresidentCard: React.FC<PresidentCardProps> = ({ president }) => {
+    const PresidentCard: React.FC<PresidentCardProps> = ({ president }) => {
       
-    return (
-        <div id="container" >
-            <div id="img-container">
-                <Image src={president.imageURL} alt={`Photo of ${president.name}`} width={500} height={500} priority />
+        return (
+            <div id="container" >
+                <div id="img-container">
+                    <Image src={president.imageURL} alt={`Photo of ${president.name}`} width={500} height={500} priority={true} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,...`} loading="eager" />
+                </div>
+                <div id="subtext-container">
+                    <h2>{president.name}</h2>
+                    <p>{president.office}: {president.yearsInOffice}</p>
+                    <p>{president.quote || "Oh Notus - no quote available"}</p>
+                </div>
             </div>
-            <div id="subtext-container">
-                <h2>{president.name}</h2>
-                <p>{president.office}: {president.yearsInOffice}</p>
-                <p>{president.quote || "Oh Notus - no quote available"}</p>
-            </div>
-        </div>
-    );
-};
+        );
+    };
 
 export default PresidentCard;

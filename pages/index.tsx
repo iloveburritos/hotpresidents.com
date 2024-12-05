@@ -25,12 +25,19 @@ const HomePage: React.FC<HomePageProps> = ({ randomShortName }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
     const { fetchRandomPresident } = await import('../lib/presidents');
     const randomPresident = fetchRandomPresident();
-
-    return {
-        props: {
-            randomShortName: randomPresident?.shortname || null,
-        },
+    
+    // Add preload headers
+    const imagePreloadHeader = {
+      key: 'Link',
+      value: `<${randomPresident.imageURL}>; rel=preload; as=image`
     };
-};
+  
+    return {
+      props: {
+        randomShortName: randomPresident?.shortname || null,
+      },
+      headers: [imagePreloadHeader]
+    };
+  };
 
 export default HomePage;

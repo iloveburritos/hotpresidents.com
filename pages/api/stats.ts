@@ -1,11 +1,16 @@
+// pages/api/stats.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { id } = req.query;
-
     if (req.method === 'GET') {
+        // Add caching headers
+        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        
+        const { id } = req.query;  // Get id from query params
+        
         try {
             const docRef = doc(db, 'hotpresidents', id as string);
             const docSnap = await getDoc(docRef);

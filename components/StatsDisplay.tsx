@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { President } from '../models/presidents';
 import { usePrefetch } from '../contexts/PrefetchStats';
+import {usePresidentStats} from '../hooks/usePresidentStats';
 
 interface StatsDisplayProps {
     president: President;
