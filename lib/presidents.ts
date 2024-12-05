@@ -21,18 +21,15 @@ function getRecentlyViewed(): string[] {
 
 function addRecentlyViewed(shortname: string) {
     if (typeof window !== 'undefined') {
-        let recentlyViewed = getRecentlyViewed();
-        // Add new president to front of array if not already present
-        if (!recentlyViewed.includes(shortname)) {
-            recentlyViewed = [shortname, ...recentlyViewed];
-        }
+        const recentlyViewed = getRecentlyViewed();
         
-        // If we've seen all presidents, reset the list
-        if (recentlyViewed.length >= presidentsData.length) {
-            recentlyViewed = [shortname];
-        }
-
-        window.sessionStorage.setItem('recentlyViewedPresidents', JSON.stringify(recentlyViewed));
+        // Remove the president if they're already in the list
+        const filteredList = recentlyViewed.filter(sn => sn !== shortname);
+        
+        // Add to front of list
+        filteredList.unshift(shortname);
+        
+        window.sessionStorage.setItem('recentlyViewedPresidents', JSON.stringify(filteredList));
     }
 }
 
@@ -45,21 +42,40 @@ function resetRecentlyViewed() {
 export function fetchRandomPresident(excludeId?: string): President {
     const recentlyViewed = getRecentlyViewed();
     
-    // Filter out the recently viewed presidents and excluded president (if any)
-    const availablePresidents = presidentsData.filter(president => 
-        !recentlyViewed.includes(president.shortname) && president.id !== excludeId
+    // Get all presidents except the excluded one
+    let availablePresidents = presidentsData.filter(president => 
+        president.id !== excludeId
     );
 
-    // If no available presidents, reset the list and use all presidents except excluded
-    const presidentsPool = availablePresidents.length > 0 
-        ? availablePresidents 
-        : presidentsData.filter(president => president.id !== excludeId);
+    // Sort presidents by how recently they were viewed
+    availablePresidents.sort((a, b) => {
+        const aIndex = recentlyViewed.indexOf(a.shortname);
+        const bIndex = recentlyViewed.indexOf(b.shortname);
+        
+        // If neither was viewed recently, randomize their order
+        if (aIndex === -1 && bIndex === -1) {
+            return Math.random() - 0.5;
+        }
+        
+        // If only one was viewed recently, prioritize the unviewed one
+        if (aIndex === -1) return -1;
+        if (bIndex === -1) return 1;
+        
+        // If both were viewed, prefer the one viewed longer ago
+        return bIndex - aIndex;
+    });
 
-    // Get a random president from the available pool
-    const randomPresident = shuffle(presidentsPool)[0];
+    // Take the first president after sorting (least recently viewed)
+    const selectedPresident = availablePresidents[0];
     
-    // Add the selected president to the recently viewed list
-    addRecentlyViewed(randomPresident.shortname);
+    // Add to recently viewed list
+    addRecentlyViewed(selectedPresident.shortname);
 
-    return randomPresident;
+    // If we've seen all presidents, reset the list but keep the current one
+    if (recentlyViewed.length >= presidentsData.length - 1) {
+        resetRecentlyViewed();
+        addRecentlyViewed(selectedPresident.shortname);
+    }
+
+    return selectedPresident;
 }
