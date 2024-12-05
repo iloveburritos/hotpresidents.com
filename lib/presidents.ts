@@ -3,8 +3,6 @@ import presidentsData from '../data/presidents.json';
 import { shuffle } from './shuffle';
 import { President } from '../models/presidents';
 
-const RECENTLY_VIEWED_LIMIT_PERCENTAGE = 0.2; // 20% of total presidents
-
 export function fetchPresidents(): President[] {
     return presidentsData;
 }
@@ -24,12 +22,14 @@ function getRecentlyViewed(): string[] {
 function addRecentlyViewed(shortname: string) {
     if (typeof window !== 'undefined') {
         let recentlyViewed = getRecentlyViewed();
-        recentlyViewed = [shortname, ...recentlyViewed.filter(sn => sn !== shortname)];
+        // Add new president to front of array if not already present
+        if (!recentlyViewed.includes(shortname)) {
+            recentlyViewed = [shortname, ...recentlyViewed];
+        }
         
-        // Dynamically calculate limit based on the current number of presidents
-        const recentlyViewedLimit = Math.floor(presidentsData.length * RECENTLY_VIEWED_LIMIT_PERCENTAGE);
-        if (recentlyViewed.length > recentlyViewedLimit) {
-            recentlyViewed.pop(); // Remove the oldest entry
+        // If we've seen all presidents, reset the list
+        if (recentlyViewed.length >= presidentsData.length) {
+            recentlyViewed = [shortname];
         }
 
         window.sessionStorage.setItem('recentlyViewedPresidents', JSON.stringify(recentlyViewed));
@@ -44,19 +44,18 @@ function resetRecentlyViewed() {
 
 export function fetchRandomPresident(excludeId?: string): President {
     const recentlyViewed = getRecentlyViewed();
-
-    // Refresh if all presidents have been viewed recently
-    if (recentlyViewed.length >= presidentsData.length) {
-        resetRecentlyViewed();
-    }
-
+    
     // Filter out the recently viewed presidents and excluded president (if any)
     const availablePresidents = presidentsData.filter(president => 
         !recentlyViewed.includes(president.shortname) && president.id !== excludeId
     );
 
-    // If all have been viewed, re-shuffle the entire list
-    const presidentsPool = availablePresidents.length ? availablePresidents : presidentsData;
+    // If no available presidents, reset the list and use all presidents except excluded
+    const presidentsPool = availablePresidents.length > 0 
+        ? availablePresidents 
+        : presidentsData.filter(president => president.id !== excludeId);
+
+    // Get a random president from the available pool
     const randomPresident = shuffle(presidentsPool)[0];
     
     // Add the selected president to the recently viewed list
