@@ -1,7 +1,7 @@
 // components/VoteButtons.tsx
 import React, { useCallback } from 'react';
 import { President } from '../models/presidents';
-import { usePrefetch } from '../contexts/PrefetchStats';
+import { usePrefetch } from '../hooks/usePrefetch';
 
 interface VoteButtonsProps {
     president: President;

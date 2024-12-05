@@ -7,7 +7,7 @@ import StatsDisplay from '../../components/StatsDisplay';
 import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '../../lib/presidents';
 import { President } from '../../models/presidents';
 import { useRouter } from 'next/router';
-import { usePrefetch } from '@/contexts/PrefetchStats';
+import { usePrefetch } from '@/hooks/usePrefetch';
 
 interface StatsPageProps {
     president: President;

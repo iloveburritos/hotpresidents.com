@@ -1,7 +1,7 @@
 // components/StatsDisplay.tsx
 import React, { useState, useEffect } from 'react';
 import { President } from '../models/presidents';
-import { usePrefetch } from '../contexts/PrefetchStats';
+import { usePrefetch } from '../hooks/usePrefetch';
 import {usePresidentStats} from '../hooks/usePresidentStats';
 
 interface StatsDisplayProps {
