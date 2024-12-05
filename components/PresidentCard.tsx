@@ -10,7 +10,7 @@ interface PresidentCardProps {
 const PresidentCard: React.FC<PresidentCardProps> = ({ president }) => {
     return (
         <div id="container">
-            <div id="img-container" className="relative aspect-square w-full max-w-[500px] min-w-[300px] min-h-[300px]">
+            <div id="img-container" className="relative w-full max-w-[500px] min-w-[300px] h-[300px]">
                 <Image 
                     src={president.imageURL}
                     alt={`Photo of ${president.name}`}
