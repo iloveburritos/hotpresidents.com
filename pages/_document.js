@@ -19,10 +19,20 @@ export default function Document() {
                 <link rel="shortcut icon" href="/static/favicon.ico" />
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
+                
+                {/* Basic Open Graph */}
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Hot Presidents" />
+                <meta property="og:description" content="Vote hotus or notus" />
                 <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="630" />
+                <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}`} />
+                
+                {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Hot Presidents" />
+                <meta name="twitter:description" content="Vote hotus or notus" />
                 <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
             </Head>
             <body>
