@@ -20,7 +20,7 @@ export default function Document() {
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
                 
-                {/* Social Sharing Tags */}
+                {/* Basic Open Graph */}
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Hot Presidents" />
                 <meta property="og:description" content="Vote hotus or notus" />
@@ -29,8 +29,11 @@ export default function Document() {
                 <meta property="og:image:height" content="630" />
                 <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}`} />
                 
-                {/* Only keep twitter:card for Twitter sharing */}
+                {/* Twitter Card */}
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Hot Presidents" />
+                <meta name="twitter:description" content="Vote hotus or notus" />
+                <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
             </Head>
             <body>
             <div id="container">
