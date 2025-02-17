@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 
 export default function Document() {
     return (
-        <Html>
+        <Html lang="en">
             <Head>
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
                 <link
@@ -19,6 +19,11 @@ export default function Document() {
                 <link rel="shortcut icon" href="/static/favicon.ico" />
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
+                <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
             </Head>
             <body>
             <div id="container">
