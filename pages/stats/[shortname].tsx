@@ -1,5 +1,5 @@
 // pages/stats/[shortname].tsx
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
 import PresidentCard from '../../components/PresidentCard';
@@ -11,36 +11,52 @@ import { usePrefetch } from '@/hooks/usePrefetch';
 
 interface StatsPageProps {
     president: President;
-    nextPresident: President;
 }
 
-const StatsPage: React.FC<StatsPageProps> = ({ president, nextPresident }) => {
+const StatsPage: React.FC<StatsPageProps> = ({ president }) => {
     const {setPrefetchedData} = usePrefetch(); 
-
-    useEffect(() => {
-        const prefetchNextStats = async () => {
-          const res = await fetch(`/api/stats?id=${nextPresident.id}`)
-          const data = await res.json()
-          setPrefetchedData(prevData => ({
-            ...prevData,
-            [nextPresident.id]: data
-          }))
-        }
-    
-        prefetchNextStats()
-      }, [nextPresident.id, setPrefetchedData])
-
-    useEffect(() => {
-        const img = new Image();
-        img.src = nextPresident.imageURL}, [nextPresident]);
-
     const router = useRouter();
+    const [nextPresident, setNextPresident] = useState<President | null>(null);
+
     useEffect(() => {
-        router.prefetch(`/vote/${nextPresident.shortname}`)
-      }, [nextPresident.shortname, router])
+        if (!nextPresident) {
+            const next = fetchRandomPresident(president.id);
+            setNextPresident(next);
+        }
+    }, [president.id]);
+
+    useEffect(() => {
+        if (!nextPresident) return;
+
+        const prefetchNextStats = async () => {
+          const res = await fetch(`/api/stats?id=${nextPresident.id}`);
+          const data = await res.json();
+          setPrefetchedData(prev => ({
+            ...prev,
+            [nextPresident.id]: data
+          }));
+        };
+    
+        prefetchNextStats();
+    }, [nextPresident, setPrefetchedData]);
+
+    useEffect(() => {
+        if (nextPresident?.imageURL) {
+            const img = new Image();
+            img.src = nextPresident.imageURL;
+        }
+    }, [nextPresident]);
+
+    useEffect(() => {
+        if (nextPresident?.shortname) {
+            router.prefetch(`/vote/${nextPresident.shortname}`);
+        }
+    }, [nextPresident, router]);
 
     const handleNextClick = () => {
-        router.push(`/vote/${nextPresident.shortname}`);
+        if (nextPresident?.shortname) {
+            router.push(`/vote/${nextPresident.shortname}`);
+        }
     };
 
     return (
@@ -72,12 +88,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
         return { notFound: true };
     }
 
-    const nextPresident = fetchRandomPresident(president.id);
-
     return {
         props: {
             president,
-            nextPresident,
         },
     };
 };

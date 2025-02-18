@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
+import { fetchRandomPresident } from '../lib/presidents';
 
 interface HomePageProps {
     randomShortName: string;
@@ -31,7 +32,6 @@ const HomePage: React.FC<HomePageProps> = ({ randomShortName }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const { fetchRandomPresident } = await import('../lib/presidents');
     const randomPresident = fetchRandomPresident();
     
     return {
@@ -39,6 +39,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         randomShortName: randomPresident?.shortname || null,
       }
     };
-  };
+};
 
 export default HomePage;

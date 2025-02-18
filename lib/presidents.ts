@@ -1,10 +1,27 @@
 // lib/presidents.ts
+import { President } from '../models/presidents';
 import presidentsData from '../data/presidents.json';
 import { shuffle } from './shuffle';
-import { President } from '../models/presidents';
 
-const STORAGE_KEY = 'presidentViewOrder';
+const STORAGE_KEY = 'presidentSequence';
 
+// Get/Set sequence from sessionStorage
+function getStoredSequence(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = window.sessionStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function setStoredSequence(sequence: string[]) {
+  if (typeof window === 'undefined') return;
+  window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(sequence));
+}
+
+// For static paths/props
 export function fetchPresidents(): President[] {
   return presidentsData;
 }
@@ -13,51 +30,27 @@ export function fetchPresidentShortname(shortname: string): President | undefine
   return presidentsData.find(president => president.shortname === shortname);
 }
 
-function getViewOrder(): string[] {
-  if (typeof window === 'undefined') return [];
-  const stored = window.sessionStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
-}
-
-function setViewOrder(order: string[]) {
-  if (typeof window === 'undefined') return;
-  window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(order));
-}
-
-function generateNewOrder(): string[] {
-  return shuffle([...presidentsData]).map(p => p.shortname);
-}
-
 export function fetchRandomPresident(excludeId?: string): President {
-  let viewOrder = getViewOrder();
-
-  // If we're at the end or haven't started, generate new shuffled order
-  if (viewOrder.length === 0) {
-    viewOrder = generateNewOrder();
-    setViewOrder(viewOrder);
+  let sequence = getStoredSequence();
+  
+  // If sequence is empty, generate new shuffled order
+  if (sequence.length === 0) {
+    sequence = shuffle([...presidentsData])
+      .map(p => p.id)
+      .filter(id => id !== excludeId);
+    setStoredSequence(sequence);
   }
 
-  // Find the next valid president
-  let nextPresident: President | undefined;
-  while (viewOrder.length > 0 && !nextPresident) {
-    const nextShortname = viewOrder[0];
-    const candidate = presidentsData.find(p => p.shortname === nextShortname);
-    
-    if (candidate && candidate.id !== excludeId) {
-      nextPresident = candidate;
-    }
-    // Remove this president from the order regardless
-    viewOrder = viewOrder.slice(1);
-  }
+  // Get next ID and update sequence
+  const nextId = sequence[0];
+  setStoredSequence(sequence.slice(1));
 
-  // If we couldn't find a valid president, generate new order and try again
-  if (!nextPresident) {
-    setViewOrder([]);
+  const president = presidentsData.find(p => p.id === nextId);
+  if (!president) {
+    // If president not found, try again
     return fetchRandomPresident(excludeId);
   }
 
-  // Save the updated order
-  setViewOrder(viewOrder);
-  return nextPresident;
+  return president;
 }
 

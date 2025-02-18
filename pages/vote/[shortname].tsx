@@ -8,24 +8,22 @@ import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../hooks/usePrefetch'
-import { usePresidentManager } from '../../components/PresidentManager'
 
 interface VotePageProps {
   president: President
-  presidentsData: President[]
 }
 
-const VotePage: React.FC<VotePageProps> = ({ president, presidentsData }) => {
+const VotePage: React.FC<VotePageProps> = ({ president }) => {
   const router = useRouter()
   const { setPrefetchedData } = usePrefetch()
-  const { getNextPresident } = usePresidentManager(president.id)
   const [nextPresident, setNextPresident] = useState<President | null>(null)
 
   useEffect(() => {
     if (!nextPresident) {
-      setNextPresident(getNextPresident(presidentsData, president.id))
+      const next = fetchRandomPresident(president.id)
+      setNextPresident(next)
     }
-  }, [president.id, presidentsData])
+  }, [president.id])
 
   useEffect(() => {
     // Prefetch both the next image and stats
@@ -70,19 +68,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const shortname = context.params?.shortname as string
-  const presidentFromFile = fetchPresidentShortname(shortname)
-  const presidentsData = fetchPresidents()
+export const getStaticProps: GetStaticProps<VotePageProps> = async ({ params }) => {
+  const shortname = params?.shortname as string
+  const president = fetchPresidentShortname(shortname)
 
-  if (!presidentFromFile) {
+  if (!president) {
     return { notFound: true }
   }
 
   return {
     props: {
-      president: presidentFromFile,
-      presidentsData,
+      president,
     },
   }
 }
