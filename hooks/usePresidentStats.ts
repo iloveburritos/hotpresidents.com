@@ -7,7 +7,7 @@ export const usePresidentStats = (president: President) => {
     const [not, setNot] = useState<number>(0);
 
     useEffect(() => {
-        // Fetch stats logic here
+        // TODO: implement stats fetching
     }, [president.id]);
 
     return { hot, not };
