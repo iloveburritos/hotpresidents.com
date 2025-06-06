@@ -1,19 +1,14 @@
-function getNextPresident(previousPresidents = []) {
-  console.log('Getting next president');
-  console.log('Previous presidents:', previousPresidents);
-  
-  const availablePresidents = presidents.filter(p => !previousPresidents.includes(p.id));
-  console.log('Available presidents pool size:', availablePresidents.length);
-  
-  // Log if we're resetting the pool
-  if (availablePresidents.length === 0) {
-    console.log('Resetting president pool - all presidents have been shown');
-  }
+import presidents from '../../data/presidents.json';
 
-  const selectedPresident = // ... existing selection logic ...
-  
-  console.log('Selected president:', selectedPresident);
-  console.log('New previous presidents array:', [...previousPresidents, selectedPresident.id]);
-  
-  return selectedPresident;
-} 
+/**
+ * Select a president that has not been shown previously.
+ * If all presidents have been shown, reset the pool before selecting again.
+ * @param {string[]} previousPresidents list of previously shown president IDs
+ * @returns {object} The selected president object
+ */
+export default function getNextPresident(previousPresidents = []) {
+  const available = presidents.filter(p => !previousPresidents.includes(p.id));
+  const pool = available.length > 0 ? available : presidents;
+  const selected = pool[Math.floor(Math.random() * pool.length)];
+  return selected;
+}
