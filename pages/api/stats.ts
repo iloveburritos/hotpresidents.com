@@ -6,8 +6,8 @@ import { db } from '../../lib/firebase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
-        // Add caching headers
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59');
+        // Set minimal caching to ensure fresh data
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         
         const { id } = req.query;  // Get id from query params
         
@@ -17,7 +17,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
                 res.status(200).json({ hot: data.hot, not: data.not });
             } else {
                 res.status(404).json({ error: 'President not found' });

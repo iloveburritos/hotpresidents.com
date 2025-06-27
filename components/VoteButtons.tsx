@@ -25,8 +25,13 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
                 throw new Error(`Failed to vote ${voteType} for president ${president.id}`);
             }
 
-            // Update prefetched stats after vote
-            const statsResponse = await fetch(`/api/stats?id=${president.id}`);
+            // Update prefetched stats after vote with fresh data
+            const statsResponse = await fetch(`/api/stats?id=${president.id}`, {
+                cache: 'no-cache',
+                headers: {
+                    'Cache-Control': 'no-cache'
+                }
+            });
             if (statsResponse.ok) {
                 const updatedStats = await statsResponse.json();
                 setPrefetchedData(prev => ({

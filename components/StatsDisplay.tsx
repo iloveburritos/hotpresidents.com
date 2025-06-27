@@ -16,14 +16,13 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) =
     useEffect(() => {
         const loadStats = async () => {
             try {
-                // First check prefetched data
-                if (prefetchedData[president.id]) {
-                    setStats(prefetchedData[president.id]);
-                    return;
-                }
-
-                // If not prefetched, fetch directly
-                const response = await fetch(`/api/stats?id=${president.id}`);
+                // Always fetch fresh data to ensure we get the latest votes
+                const response = await fetch(`/api/stats?id=${president.id}`, {
+                    cache: 'no-cache',
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch stats');
                 }
@@ -31,6 +30,10 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) =
                 setStats(data);
             } catch (error) {
                 console.error('Error loading stats:', error);
+                // Fallback to prefetched data if fetch fails
+                if (prefetchedData[president.id]) {
+                    setStats(prefetchedData[president.id]);
+                }
             }
         };
         loadStats();
