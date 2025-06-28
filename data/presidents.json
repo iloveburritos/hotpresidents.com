@@ -309,7 +309,7 @@
         "office": "President",
         "imageURL": "/images/presidents/donaldtrump.webp",
         "quote": "REALLY likes one of his daughters",
-        "yearsInOffice": "2017-2021",
+        "yearsInOffice": "2017-2021, 2025-",
         "shortname": "trump",
         "alternativeImages": [
             "/images/presidents/donaldtrump2.webp",
@@ -322,7 +322,7 @@
         "office": "President",
         "imageURL": "/images/presidents/joebiden3.webp",
         "quote": "Barack's best friend",
-        "yearsInOffice": "2021-",
+        "yearsInOffice": "2021-2025",
         "shortname": "biden",
         "alternativeImages": [
             "/images/presidents/joebiden.webp"
@@ -440,7 +440,7 @@
         "office": "Vice President",
         "imageURL": "/images/presidents/kamalaharris2.webp",
         "quote": "Loves venn diagrams",
-        "yearsInOffice": "2021-",
+        "yearsInOffice": "2021-2025",
         "shortname": "kamala",
         "alternativeImages": [
             "/images/presidents/kamalaharris.webp"
