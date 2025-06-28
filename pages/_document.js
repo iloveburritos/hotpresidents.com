@@ -20,20 +20,30 @@ export default function Document() {
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
                 
-                {/* Basic Open Graph */}
+                {/* Farcaster Frame Metadata */}
+                <meta property="og:title" content="Hot Presidents - Vote on Presidential Hotness" />
+                <meta property="og:description" content="Vote on which US presidents are hot or not. Join the debate!" />
+                <meta property="og:url" content="https://hotpresidents.com" />
                 <meta property="og:type" content="website" />
-                <meta property="og:title" content="Hot Presidents" />
-                <meta property="og:description" content="Vote hotus or notus" />
-                <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
-                <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}`} />
-                
-                {/* Twitter Card */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content="Hot Presidents" />
-                <meta name="twitter:description" content="Vote hotus or notus" />
-                <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://hotpresidents.com'}/static/bazaart.png`} />
+                <meta property="og:image" content="https://hotpresidents.com/static/notus.png" />
+                <meta
+                  name="fc:frame"
+                  content={JSON.stringify({
+                    version: "next",
+                    imageUrl: "https://hotpresidents.com/static/notus.png",
+                    button: {
+                      title: "Vote on Presidents",
+                      action: {
+                        type: "launch_frame",
+                        name: "HotPresidents",
+                        url: "https://hotpresidents.com",
+                        splashImageUrl: "https://hotpresidents.com/static/notus.png",
+                        splashBackgroundColor: "#ffffff"
+                      }
+                    }
+                  })}
+                />
+                <meta name="fc:frame:image" content="https://hotpresidents.com/static/notus.png" />
             </Head>
             <body>
             <div id="container">
