@@ -5,10 +5,12 @@ import { President } from '../models/presidents';
 export const usePresidentStats = (president: President) => {
     const [hot, setHot] = useState<number | null>(null);
     const [not, setNot] = useState<number | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Load initial stats
     useEffect(() => {
         const loadInitialStats = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(`/api/stats?id=${president.id}`);
                 if (response.ok) {
@@ -18,6 +20,8 @@ export const usePresidentStats = (president: President) => {
                 }
             } catch (error) {
                 console.error('Error loading initial stats:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -47,6 +51,7 @@ export const usePresidentStats = (president: President) => {
     return { 
         hot, 
         not, 
+        isLoading,
         optimisticVote, 
         revertVote 
     };
