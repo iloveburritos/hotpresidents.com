@@ -16,8 +16,8 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) =
             <h3>Score:</h3>
             <div id="score-container">
                 <div className="button-inner">
-                    <h4 className="score">🔥<br />{hot}</h4>
-                    <h4 className="score">🤮<br />{not}</h4>
+                    <h4 className="score">🔥<br />{hot !== null ? hot : ''}</h4>
+                    <h4 className="score">🤮<br />{not !== null ? not : ''}</h4>
                 </div>
             </div>
 

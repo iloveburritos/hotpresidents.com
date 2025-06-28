@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { President } from '../models/presidents';
 
 export const usePresidentStats = (president: President) => {
-    const [hot, setHot] = useState<number>(0);
-    const [not, setNot] = useState<number>(0);
+    const [hot, setHot] = useState<number | null>(null);
+    const [not, setNot] = useState<number | null>(null);
 
     // Load initial stats
     useEffect(() => {
@@ -29,18 +29,18 @@ export const usePresidentStats = (president: President) => {
     // Optimistic vote update function
     const optimisticVote = (voteType: 'hot' | 'not') => {
         if (voteType === 'hot') {
-            setHot(prev => prev + 1);
+            setHot(prev => (prev ?? 0) + 1);
         } else {
-            setNot(prev => prev + 1);
+            setNot(prev => (prev ?? 0) + 1);
         }
     };
 
     // Revert optimistic update if server request fails
     const revertVote = (voteType: 'hot' | 'not') => {
         if (voteType === 'hot') {
-            setHot(prev => prev - 1);
+            setHot(prev => (prev ?? 0) - 1);
         } else {
-            setNot(prev => prev - 1);
+            setNot(prev => (prev ?? 0) - 1);
         }
     };
 
