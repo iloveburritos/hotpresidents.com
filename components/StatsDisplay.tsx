@@ -9,15 +9,15 @@ interface StatsDisplayProps {
 }
 
 const StatsDisplay: React.FC<StatsDisplayProps> = ({ president, onNextClick }) => {
-    const { hot, not, isLoading } = usePresidentStats(president);
+    const { hot, not } = usePresidentStats(president);
 
     return (
         <div id="subtext-container">
             <h3>Score:</h3>
             <div id="score-container">
                 <div className="button-inner">
-                    <h4 className="score">🔥<br />{isLoading ? '...' : hot}</h4>
-                    <h4 className="score">🤮<br />{isLoading ? '...' : not}</h4>
+                    <h4 className="score">🔥<br />{hot}</h4>
+                    <h4 className="score">🤮<br />{not}</h4>
                 </div>
             </div>
 

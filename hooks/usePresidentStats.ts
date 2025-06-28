@@ -5,7 +5,6 @@ import { President } from '../models/presidents';
 export const usePresidentStats = (president: President) => {
     const [hot, setHot] = useState<number>(0);
     const [not, setNot] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Load initial stats
     useEffect(() => {
@@ -19,8 +18,6 @@ export const usePresidentStats = (president: President) => {
                 }
             } catch (error) {
                 console.error('Error loading initial stats:', error);
-            } finally {
-                setIsLoading(false);
             }
         };
 
@@ -50,7 +47,6 @@ export const usePresidentStats = (president: President) => {
     return { 
         hot, 
         not, 
-        isLoading, 
         optimisticVote, 
         revertVote 
     };
