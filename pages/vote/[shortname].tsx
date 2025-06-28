@@ -8,6 +8,7 @@ import { fetchPresidents, fetchPresidentShortname, fetchRandomPresident } from '
 import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../hooks/usePrefetch'
+import { usePresidentStats } from '../../hooks/usePresidentStats'
 
 interface VotePageProps {
   president: President
@@ -17,6 +18,7 @@ const VotePage: React.FC<VotePageProps> = ({ president }) => {
   const router = useRouter()
   const { setPrefetchedData } = usePrefetch()
   const [nextPresident, setNextPresident] = useState<President | null>(null)
+  const { optimisticVote, revertVote } = usePresidentStats(president)
 
   useEffect(() => {
     if (!nextPresident) {
@@ -28,15 +30,26 @@ const VotePage: React.FC<VotePageProps> = ({ president }) => {
   useEffect(() => {
     // Prefetch both the next image and stats
     const prefetchData = async () => {
+      // Preload current president's stats for instant stats page load
+      const currentStatsResponse = await fetch(`/api/stats?id=${president.id}`)
+      const currentStatsData = await currentStatsResponse.json()
+      setPrefetchedData(prev => ({
+        ...prev,
+        [president.id]: currentStatsData
+      }))
+
+      // Preload next president's data
       const img = new Image()
       img.src = nextPresident?.imageURL || ''
       
-      const statsResponse = await fetch(`/api/stats?id=${president.id}`)
-      const statsData = await statsResponse.json()
-      setPrefetchedData(prev => ({
-        ...prev,
-        [president.id]: statsData
-      }))
+      if (nextPresident) {
+        const nextStatsResponse = await fetch(`/api/stats?id=${nextPresident.id}`)
+        const nextStatsData = await nextStatsResponse.json()
+        setPrefetchedData(prev => ({
+          ...prev,
+          [nextPresident.id]: nextStatsData
+        }))
+      }
     }
 
     prefetchData()
@@ -52,7 +65,12 @@ const VotePage: React.FC<VotePageProps> = ({ president }) => {
       {president && (
         <>
           <PresidentCard president={president} />
-          <VoteButtons president={president} onVoteSuccess={handleVoteSuccess} />
+          <VoteButtons 
+            president={president} 
+            onVoteSuccess={handleVoteSuccess}
+            onOptimisticVote={optimisticVote}
+            onRevertVote={revertVote}
+          />
         </>
       )}
     </Layout>

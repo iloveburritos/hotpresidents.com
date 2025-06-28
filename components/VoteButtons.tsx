@@ -6,12 +6,22 @@ import { usePrefetch } from '../hooks/usePrefetch';
 interface VoteButtonsProps {
     president: President;
     onVoteSuccess: (voteType: 'hot' | 'not') => void;
+    onOptimisticVote: (voteType: 'hot' | 'not') => void;
+    onRevertVote: (voteType: 'hot' | 'not') => void;
 }
 
-const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) => {
+const VoteButtons: React.FC<VoteButtonsProps> = ({ 
+    president, 
+    onVoteSuccess, 
+    onOptimisticVote, 
+    onRevertVote 
+}) => {
     const { setPrefetchedData } = usePrefetch();
 
     const handleVote = useCallback(async (voteType: 'hot' | 'not') => {
+        // Immediately update UI optimistically
+        onOptimisticVote(voteType);
+
         try {
             const response = await fetch('/api/vote', {
                 method: 'POST',
@@ -25,13 +35,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
                 throw new Error(`Failed to vote ${voteType} for president ${president.id}`);
             }
 
-            // Update prefetched stats after vote with fresh data
-            const statsResponse = await fetch(`/api/stats?id=${president.id}`, {
-                cache: 'no-cache',
-                headers: {
-                    'Cache-Control': 'no-cache'
-                }
-            });
+            // Update prefetched data for next president
+            const statsResponse = await fetch(`/api/stats?id=${president.id}`);
             if (statsResponse.ok) {
                 const updatedStats = await statsResponse.json();
                 setPrefetchedData(prev => ({
@@ -43,8 +48,10 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({ president, onVoteSuccess }) =
             onVoteSuccess(voteType);
         } catch (error) {
             console.error('Error submitting vote:', error);
+            // Revert optimistic update if server request fails
+            onRevertVote(voteType);
         }
-    }, [president.id, onVoteSuccess, setPrefetchedData]);
+    }, [president.id, onVoteSuccess, onOptimisticVote, onRevertVote, setPrefetchedData]);
 
     return (
         <>
