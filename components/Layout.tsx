@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import {Analytics} from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/react"
-
+import FarcasterDebug from './FarcasterDebug';
 
 interface LayoutProps {
     children: ReactNode;
@@ -53,6 +53,7 @@ const Layout: React.FC<LayoutProps> = ({
                 <div id="container">{children}</div>
                 <Analytics />
                 <SpeedInsights />
+                <FarcasterDebug />
             </main>
         </>
     );

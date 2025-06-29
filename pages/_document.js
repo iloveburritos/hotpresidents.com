@@ -36,7 +36,7 @@ export default function Document() {
                       action: {
                         type: "launch_frame",
                         name: "HotPresidents",
-                        url: "https://hotpresidents.com",
+                        url: "https://hotpresidents.com/vote/lincoln",
                         splashImageUrl: "https://hotpresidents.com/static/bazaart.png",
                         splashBackgroundColor: "#ffffff"
                       }
