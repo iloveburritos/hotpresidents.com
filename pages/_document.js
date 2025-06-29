@@ -2,6 +2,7 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from '@vercel/analytics/react';
+import { aspectRatioSchema } from '@farcaster/frame-sdk';
 
 
 export default function Document() {
@@ -32,12 +33,13 @@ export default function Document() {
                     version: "next",
                     imageUrl: "https://hotpresidents.com/static/bazaart.png",
                     button: {
-                      title: "Hotus or Notus",
+                      title: "Hotus or Notus?",
                       action: {
                         type: "launch_frame",
                         name: "HotPresidents",
                         url: "https://hotpresidents.com",
                         splashImageUrl: "https://hotpresidents.com/static/bazaart.png",
+                        aspectRatio: "2:1",
                         splashBackgroundColor: "#ffffff"
                       }
                     }
