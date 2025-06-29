@@ -21,29 +21,29 @@ export default function Document() {
                 <meta name="theme-color" content="#ffffff" />
                 
                 {/* Farcaster Frame Metadata */}
-                <meta property="og:title" content="Hot Presidents - Vote on Presidential Hotness" />
-                <meta property="og:description" content="Vote on which US presidents are hot or not. Join the debate!" />
+                <meta property="og:title" content="Hot Presidents" />
+                <meta property="og:description" content="Hotus or Notus? Cast your vote now!" />
                 <meta property="og:url" content="https://hotpresidents.com" />
                 <meta property="og:type" content="website" />
-                <meta property="og:image" content="https://hotpresidents.com/static/notus.png" />
+                <meta property="og:image" content="https://hotpresidents.com/static/bazaart.png" />
                 <meta
                   name="fc:frame"
                   content={JSON.stringify({
                     version: "next",
-                    imageUrl: "https://hotpresidents.com/static/notus.png",
+                    imageUrl: "https://hotpresidents.com/static/bazaart.png",
                     button: {
-                      title: "Vote on Presidents",
+                      title: "Hotus or Notus",
                       action: {
                         type: "launch_frame",
                         name: "HotPresidents",
                         url: "https://hotpresidents.com",
-                        splashImageUrl: "https://hotpresidents.com/static/notus.png",
+                        splashImageUrl: "https://hotpresidents.com/static/bazaart.png",
                         splashBackgroundColor: "#ffffff"
                       }
                     }
                   })}
                 />
-                <meta name="fc:frame:image" content="https://hotpresidents.com/static/notus.png" />
+                <meta name="fc:frame:image" content="https://hotpresidents.com/static/bazaart.png" />
             </Head>
             <body>
             <div id="container">
