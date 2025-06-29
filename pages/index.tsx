@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
 import { fetchRandomPresident } from '../lib/presidents';
+import { sdk } from '@farcaster/frame-sdk'
 
 interface HomePageProps {
     randomShortName: string;
@@ -16,6 +17,10 @@ const HomePage: React.FC<HomePageProps> = ({ randomShortName }) => {
     useEffect(() => {
         router.push(`/vote/${randomShortName}`);
     }, [router, randomShortName]);
+
+    useEffect(() => {
+        sdk.actions.ready()
+      }, [])
 
     return (
         <Layout>
