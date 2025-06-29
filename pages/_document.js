@@ -2,7 +2,6 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from '@vercel/analytics/react';
-import { aspectRatioSchema } from '@farcaster/frame-sdk';
 
 
 export default function Document() {
