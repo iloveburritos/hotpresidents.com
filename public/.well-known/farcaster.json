@@ -6,7 +6,7 @@
       "homeUrl": "https://hotpresidents.com",
       "imageUrl": "https://hotpresidents.com/static/bazaart.png",
       "buttonTitle": "Hotus or Notus? ",
-      "splashImageUrl": "https://hotpresidents.com/static/mstile-150x150.png",
+      "splashImageUrl": "https://hotpresidents.com/static/bazaart.png",
       "splashBackgroundColor": "#6200EA",
       "webhookUrl": "https://hotpresidents.com/api/vote",
       "subtitle": "Hotus or Notus? ",
