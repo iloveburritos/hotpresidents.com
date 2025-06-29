@@ -39,7 +39,6 @@ export default function Document() {
                         name: "HotPresidents",
                         url: "https://hotpresidents.com",
                         splashImageUrl: "https://hotpresidents.com/static/bazaart.png",
-                        aspectRatio: "2:1",
                         splashBackgroundColor: "#ffffff"
                       }
                     }
