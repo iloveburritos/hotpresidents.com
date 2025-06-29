@@ -25,25 +25,25 @@ export default function Document() {
                 <meta property="og:description" content="Hotus or Notus? Cast your vote now!" />
                 <meta property="og:url" content="https://hotpresidents.com" />
                 <meta property="og:type" content="website" />
-                <meta property="og:image" content="https://hotpresidents.com/static/bazaart.png" />
+                <meta property="og:image" content="https://hotpresidents.com/static/3x2bazaart.png" />
                 <meta
                   name="fc:frame"
                   content={JSON.stringify({
                     version: "next",
-                    imageUrl: "https://hotpresidents.com/static/bazaart.png",
+                    imageUrl: "https://hotpresidents.com/static/3x2bazaart.png",
                     button: {
                       title: "Hotus or Notus?",
                       action: {
                         type: "launch_frame",
                         name: "HotPresidents",
                         url: "https://hotpresidents.com/vote/lincoln",
-                        splashImageUrl: "https://hotpresidents.com/static/bazaart.png",
+                        splashImageUrl: "https://hotpresidents.com/static/3x2bazaart.png",
                         splashBackgroundColor: "#ffffff"
                       }
                     }
                   })}
                 />
-                <meta name="fc:frame:image" content="https://hotpresidents.com/static/bazaart.png" />
+                <meta name="fc:frame:image" content="https://hotpresidents.com/static/3x2bazaart.png" />
             </Head>
             <body>
             <div id="container">
