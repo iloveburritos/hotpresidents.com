@@ -93,9 +93,8 @@ const RankingsPage: React.FC = () => {
                         <div className="grid grid-cols-12 gap-4 items-center font-semibold text-gray-700">
                             <div className="col-span-1 text-center">#</div>
                             <div className="col-span-2"></div>
-                            <div className="col-span-5">President</div>
-                            <div className="col-span-2 text-center">Hot</div>
-                            <div className="col-span-2 text-center">Not</div>
+                            <div className="col-span-6">President</div>
+                            <div className="col-span-3 text-center">Net Score</div>
                         </div>
                     </div>
                     <div className="divide-y divide-gray-200">
@@ -116,32 +115,16 @@ const RankingsPage: React.FC = () => {
                                             className="w-16 h-16 object-cover rounded-full mx-auto"
                                         />
                                     </div>
-                                    <div className="col-span-5">
+                                    <div className="col-span-6">
                                         <h3 className="font-semibold text-lg text-gray-800">
                                             {president.name}
                                         </h3>
-                                        <Link 
-                                            href={`/vote/${president.shortname}`}
-                                            className="text-sm text-blue-600 hover:text-blue-800 underline"
-                                        >
-                                            Vote on this president
-                                        </Link>
                                     </div>
-                                    <div className="col-span-2 text-center">
-                                        <span className="text-lg font-semibold text-red-600">
-                                            {president.hot}
+                                    <div className="col-span-3 text-center">
+                                        <span className={`text-xl font-bold ${getDeltaColor(president.delta)}`}>
+                                            {formatDelta(president.delta)}
                                         </span>
                                     </div>
-                                    <div className="col-span-2 text-center">
-                                        <span className="text-lg font-semibold text-blue-600">
-                                            {president.not}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="mt-2 text-center">
-                                    <span className={`text-lg font-bold ${getDeltaColor(president.delta)}`}>
-                                        {formatDelta(president.delta)}
-                                    </span>
                                 </div>
                             </div>
                         ))}
