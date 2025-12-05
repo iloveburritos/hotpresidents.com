@@ -59,9 +59,9 @@ const Layout: React.FC<LayoutProps> = ({
             </Head>
             <Script
                 src="https://www.googletagmanager.com/gtag/js?id=G-KGQDF0YR1G"
-                strategy="afterInteractive"
+                strategy="lazyOnload"
             />
-            <Script id="gtag-init">
+            <Script id="gtag-init" strategy="lazyOnload">
                 {`window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());

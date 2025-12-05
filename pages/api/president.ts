@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { getDb } from '../../lib/firebase';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id, shortname } = req.query;
 
   try {
+    const db = await getDb();
+    const { doc, getDoc, query, collection, where, getDocs } = await import('firebase/firestore');
     let docSnap;
 
     if (id) {
@@ -14,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else if (shortname) {
       // Fetch by shortname
       const q = query(
-        collection(db, 'presidents'), 
+        collection(db, 'presidents'),
         where('shortname', '==', shortname)
       );
       const querySnap = await getDocs(q);
@@ -32,4 +33,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error('Error fetching president:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-} 
+}

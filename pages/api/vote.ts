@@ -1,7 +1,6 @@
 // pages/api/vote.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { db } from '../../lib/firebase';
-import { doc, updateDoc, increment } from 'firebase/firestore';
+import { getDb } from '../../lib/firebase';
 
 const vote = async (req: NextApiRequest, res: NextApiResponse) => {
     const { id, voteType } = req.body;
@@ -17,9 +16,11 @@ const vote = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
 
-    const voteRef = doc(db, 'hotpresidents', id);
-
     try {
+        const db = await getDb();
+        const { doc, updateDoc, increment } = await import('firebase/firestore');
+        const voteRef = doc(db, 'hotpresidents', id);
+
         await updateDoc(voteRef, {
             [voteType]: increment(1),
         });

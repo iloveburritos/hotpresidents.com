@@ -5,6 +5,8 @@ export const useFarcaster = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Use requestIdleCallback to defer detection until browser is idle
+    // This prevents blocking the initial render
     const detectFarcaster = () => {
       if (typeof window === 'undefined') {
         setIsFarcaster(false);
@@ -12,9 +14,9 @@ export const useFarcaster = () => {
         return;
       }
 
-      const isFarcasterMiniApp = 
+      const isFarcasterMiniApp =
         // Check URL patterns
-        window.location.href.includes('warpcast.com') || 
+        window.location.href.includes('warpcast.com') ||
         window.location.href.includes('farcaster.xyz') ||
         window.location.href.includes('fc.') ||
         // Check user agent
@@ -29,13 +31,16 @@ export const useFarcaster = () => {
 
       setIsFarcaster(isFarcasterMiniApp);
       setIsLoading(false);
-      
-      console.log('Farcaster detection result:', isFarcasterMiniApp);
     };
 
-    // Small delay to ensure DOM is ready
-    const timer = setTimeout(detectFarcaster, 50);
-    return () => clearTimeout(timer);
+    // Use requestIdleCallback if available, otherwise use setTimeout with longer delay
+    if ('requestIdleCallback' in window) {
+      const idleId = (window as any).requestIdleCallback(detectFarcaster, { timeout: 1000 });
+      return () => (window as any).cancelIdleCallback(idleId);
+    } else {
+      const timer = setTimeout(detectFarcaster, 100);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return { isFarcaster, isLoading };

@@ -1,7 +1,9 @@
 // lib/firebase.ts
-import { FirebaseApp, initializeApp } from 'firebase/app';
-import { getFirestore as getFirestoreSDK, Firestore } from 'firebase/firestore';
-import { doc, onSnapshot } from 'firebase/firestore';
+import type { FirebaseApp } from 'firebase/app';
+import type { Firestore } from 'firebase/firestore';
+
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -13,15 +15,31 @@ const firebaseConfig = {
     measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestoreSDK(app);
+// Lazy initialization - only loads Firebase when first called
+export const getFirebaseApp = async (): Promise<FirebaseApp> => {
+    if (app) return app;
 
-export function subscribeToPresidentStats(presidentId: string, callback: (data: any) => void) {
-    const docRef = doc(db, 'hotpresidents', presidentId);
-    return onSnapshot(docRef, (doc) => {
-        if (doc.exists()) {
-            callback(doc.data());
+    const { initializeApp, getApps } = await import('firebase/app');
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    return app;
+};
+
+export const getDb = async (): Promise<Firestore> => {
+    if (db) return db;
+
+    const firebaseApp = await getFirebaseApp();
+    const { getFirestore } = await import('firebase/firestore');
+    db = getFirestore(firebaseApp);
+    return db;
+};
+
+export async function subscribeToPresidentStats(presidentId: string, callback: (data: any) => void) {
+    const firestore = await getDb();
+    const { doc, onSnapshot } = await import('firebase/firestore');
+    const docRef = doc(firestore, 'hotpresidents', presidentId);
+    return onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+            callback(docSnap.data());
         }
     });
 }
-

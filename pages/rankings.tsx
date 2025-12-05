@@ -1,9 +1,14 @@
 // pages/rankings.tsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { GetStaticProps } from 'next';
+import { collection, getDocs } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
+import { fetchPresidents } from '../lib/presidents';
 
 interface PresidentRanking {
     id: string;
@@ -15,30 +20,11 @@ interface PresidentRanking {
     delta: number;
 }
 
-const RankingsPage: React.FC = () => {
-    const [rankings, setRankings] = useState<PresidentRanking[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+interface RankingsPageProps {
+    rankings: PresidentRanking[];
+}
 
-    useEffect(() => {
-        const fetchRankings = async () => {
-            try {
-                const response = await fetch('/api/rankings');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch rankings');
-                }
-                const data = await response.json();
-                setRankings(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'An error occurred');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchRankings();
-    }, []);
-
+const RankingsPage: React.FC<RankingsPageProps> = ({ rankings }) => {
     const formatDelta = (delta: number) => {
         const sign = delta >= 0 ? '+' : '';
         const label = delta >= 0 ? 'HOT' : 'NOT';
@@ -51,32 +37,6 @@ const RankingsPage: React.FC = () => {
         return 'text-gray-600'; // Neutral
     };
 
-    if (loading) {
-        return (
-            <Layout pageTitle="Rankings - Hot or Not Presidents" pageDescription="See how all the presidents rank in the hotness contest">
-                <Head>
-                    <title>Rankings - Hot or Not Presidents</title>
-                </Head>
-                <div className="flex items-center justify-center min-h-screen">
-                    <p className="text-xl">Loading rankings...</p>
-                </div>
-            </Layout>
-        );
-    }
-
-    if (error) {
-        return (
-            <Layout pageTitle="Rankings - Hot or Not Presidents" pageDescription="See how all the presidents rank in the hotness contest">
-                <Head>
-                    <title>Rankings - Hot or Not Presidents</title>
-                </Head>
-                <div className="flex items-center justify-center min-h-screen">
-                    <p className="text-xl text-red-600">Error: {error}</p>
-                </div>
-            </Layout>
-        );
-    }
-
     return (
         <Layout pageTitle="Rankings - Hot or Not Presidents" pageDescription="See how all the presidents rank in the hotness contest">
             <Head>
@@ -87,7 +47,7 @@ const RankingsPage: React.FC = () => {
                     <h1 className="text-4xl font-bold text-gray-800 mb-2">Presidential Rankings</h1>
                     <p className="text-lg text-gray-600">Who&apos;s the hottest POTUS of them all?</p>
                 </div>
-                
+
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                     <div className="px-6 py-4 bg-gray-50 border-b">
                         <div className="grid grid-cols-12 gap-4 items-center font-semibold text-gray-700">
@@ -107,7 +67,7 @@ const RankingsPage: React.FC = () => {
                                         </span>
                                     </div>
                                     <div className="col-span-2">
-                                        <Image 
+                                        <Image
                                             src={president.imageURL}
                                             alt={president.name}
                                             width={64}
@@ -130,9 +90,9 @@ const RankingsPage: React.FC = () => {
                         ))}
                     </div>
                 </div>
-                
+
                 <div className="text-center mt-8">
-                    <Link 
+                    <Link
                         href="/"
                         className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
                     >
@@ -142,6 +102,70 @@ const RankingsPage: React.FC = () => {
             </div>
         </Layout>
     );
+};
+
+// Initialize Firebase for server-side use
+const getServerFirestore = () => {
+    const firebaseConfig = {
+        apiKey: process.env.FIREBASE_API_KEY,
+        authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.FIREBASE_APP_ID,
+    };
+
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    return getFirestore(app);
+};
+
+export const getStaticProps: GetStaticProps<RankingsPageProps> = async () => {
+    try {
+        const db = getServerFirestore();
+        const presidents = fetchPresidents();
+        const statsCollection = collection(db, 'hotpresidents');
+        const statsSnapshot = await getDocs(statsCollection);
+
+        const rankings: PresidentRanking[] = [];
+
+        for (const president of presidents) {
+            const statsDoc = statsSnapshot.docs.find(doc => doc.id === president.id);
+            const stats = statsDoc?.data() || { hot: 0, not: 0 };
+
+            const hot = stats.hot || 0;
+            const not = stats.not || 0;
+            const delta = hot - not;
+
+            rankings.push({
+                id: president.id,
+                name: president.name,
+                shortname: president.shortname,
+                imageURL: president.imageURL,
+                hot,
+                not,
+                delta
+            });
+        }
+
+        // Sort by delta (highest to lowest)
+        rankings.sort((a, b) => b.delta - a.delta);
+
+        return {
+            props: {
+                rankings,
+            },
+            // Revalidate every 60 seconds (ISR)
+            revalidate: 60,
+        };
+    } catch (error) {
+        console.error('Error fetching rankings:', error);
+        return {
+            props: {
+                rankings: [],
+            },
+            revalidate: 60,
+        };
+    }
 };
 
 export default RankingsPage;
