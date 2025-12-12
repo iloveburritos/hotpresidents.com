@@ -19,13 +19,8 @@ export default function Document() {
                 <link rel="shortcut icon" href="/static/favicon-32x32.png" />
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
-                
+
                 {/* Farcaster Frame Metadata */}
-                <meta property="og:title" content="Hot Presidents" />
-                <meta property="og:description" content="Hotus or Notus? Cast your vote now!" />
-                <meta property="og:url" content="https://hotpresidents.com" />
-                <meta property="og:type" content="website" />
-                <meta property="og:image" content="https://hotpresidents.com/static/3x2bazaart.png" />
                 <meta
                   name="fc:frame"
                   content={JSON.stringify({
