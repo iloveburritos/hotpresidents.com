@@ -5,8 +5,8 @@ import { getDb } from '../../lib/firebase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
-        // Cache for 60s on CDN, serve stale while revalidating for 5 min
-        res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+        // No CDN caching - stats must be fresh after voting
+        res.setHeader('Cache-Control', 'private, no-cache, no-store');
 
         const { id } = req.query;  // Get id from query params
 
