@@ -9,7 +9,6 @@ import { President } from '../../models/presidents'
 import { useRouter } from 'next/router'
 import { usePrefetch } from '../../hooks/usePrefetch'
 import { usePresidentStats } from '../../hooks/usePresidentStats'
-import { useFarcaster } from '../../hooks/useFarcaster'
 
 interface VotePageProps {
   president: President
@@ -20,15 +19,6 @@ const VotePage: React.FC<VotePageProps> = ({ president }) => {
   const { setPrefetchedData } = usePrefetch()
   const [nextPresident, setNextPresident] = useState<President | null>(null)
   const { optimisticVote, revertVote } = usePresidentStats(president)
-  const { isFarcaster } = useFarcaster()
-
-  useEffect(() => {
-    console.log('VotePage mounted:', { 
-      president: president?.name, 
-      shortname: president?.shortname,
-      isFarcaster 
-    });
-  }, [president, isFarcaster]);
 
   useEffect(() => {
     if (!nextPresident) {

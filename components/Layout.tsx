@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({
     children,
     pageTitle = "Hot or Not Presidents",
     pageDescription = "Hotus or Notus? Who's the hottest potus of them all?",
-    pageImage = "/static/bazaart.png",
+    pageImage = "/static/bazaart.webp",
     pageUrl = "https://www.hotpresidents.com"
 }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

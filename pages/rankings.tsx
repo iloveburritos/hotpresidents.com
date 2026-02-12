@@ -72,6 +72,7 @@ const RankingsPage: React.FC<RankingsPageProps> = ({ rankings }) => {
                                             alt={president.name}
                                             width={64}
                                             height={64}
+                                            loading="lazy"
                                             className="w-16 h-16 object-cover rounded-full mx-auto"
                                         />
                                     </div>

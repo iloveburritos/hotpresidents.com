@@ -1,8 +1,5 @@
 // pages/_document.js
 import { Html, Head, Main, NextScript } from 'next/document';
-import { SpeedInsights } from "@vercel/speed-insights/react"
-import { Analytics } from '@vercel/analytics/react';
-
 
 export default function Document() {
     return (
@@ -19,35 +16,10 @@ export default function Document() {
                 <link rel="shortcut icon" href="/static/favicon-32x32.png" />
                 <meta name="msapplication-TileColor" content="#da532c" />
                 <meta name="theme-color" content="#ffffff" />
-
-                {/* Farcaster Frame Metadata */}
-                <meta
-                  name="fc:frame"
-                  content={JSON.stringify({
-                    version: "next",
-                    imageUrl: "https://hotpresidents.com/static/3x2bazaart.png",
-                    button: {
-                      title: "Hotus or Notus?",
-                      action: {
-                        type: "launch_frame",
-                        name: "HotPresidents",
-                        url: "https://hotpresidents.com/vote/lincoln",
-                        splashImageUrl: "https://hotpresidents.com/static/3x2bazaart.png",
-                        splashBackgroundColor: "#ffffff"
-                      }
-                    }
-                  })}
-                />
-                <meta name="fc:frame:image" content="https://hotpresidents.com/static/3x2bazaart.png" />
             </Head>
             <body>
-            <div id="container">
                 <Main />
-            
                 <NextScript />
-                <Analytics mode={'production'} />
-                <SpeedInsights />
-                </div>
             </body>
         </Html>
     );

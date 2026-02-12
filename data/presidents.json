@@ -445,5 +445,16 @@
         "alternativeImages": [
             "/images/presidents/kamalaharris.webp"
         ]
+    },
+    {
+        "id": "43",
+        "name": "J.D. Vance",
+        "office": "Vice President",
+        "imageURL": "/images/presidents/jdvance.webp",
+        "quote": "Did you even say thank you?",
+        "yearsInOffice": "2025-",
+        "shortname": "vance",
+        "alternativeImages": [
+        ]
     }
 ]
