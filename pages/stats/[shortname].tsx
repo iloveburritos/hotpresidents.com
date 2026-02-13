@@ -19,10 +19,8 @@ const StatsPage: React.FC<StatsPageProps> = ({ president }) => {
     const [nextPresident, setNextPresident] = useState<President | null>(null);
 
     useEffect(() => {
-        if (!nextPresident) {
-            const next = fetchRandomPresident(president.id);
-            setNextPresident(next);
-        }
+        const next = fetchRandomPresident(president.id);
+        setNextPresident(next);
     }, [president.id]);
 
     useEffect(() => {
