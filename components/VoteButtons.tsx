@@ -1,6 +1,7 @@
 // components/VoteButtons.tsx
 import React, { useCallback } from 'react';
 import { President } from '../models/presidents';
+import { usePrefetch } from '../hooks/usePrefetch';
 
 interface VoteButtonsProps {
     president: President;
@@ -15,6 +16,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
     onOptimisticVote,
     onRevertVote
 }) => {
+    const { setPrefetchedData } = usePrefetch();
+
     const handleVote = useCallback(async (voteType: 'hot' | 'not') => {
         // Immediately update UI optimistically
         onOptimisticVote(voteType);
@@ -32,13 +35,22 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
                 throw new Error(`Failed to vote ${voteType} for president ${president.id}`);
             }
 
+            // Store updated stats from vote response for instant stats page load
+            const data = await response.json();
+            if (data.hot !== undefined) {
+                setPrefetchedData(prev => ({
+                    ...prev,
+                    [president.id]: { hot: data.hot, not: data.not },
+                }));
+            }
+
             onVoteSuccess(voteType);
         } catch (error) {
             console.error('Error submitting vote:', error);
             // Revert optimistic update if server request fails
             onRevertVote(voteType);
         }
-    }, [president.id, onVoteSuccess, onOptimisticVote, onRevertVote]);
+    }, [president.id, onVoteSuccess, onOptimisticVote, onRevertVote, setPrefetchedData]);
 
     return (
         <>

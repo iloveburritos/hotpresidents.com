@@ -18,13 +18,21 @@ const vote = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const db = await getDb();
-        const { doc, updateDoc, increment } = await import('firebase/firestore');
+        const { doc, updateDoc, increment, getDoc } = await import('firebase/firestore');
         const voteRef = doc(db, 'hotpresidents', id);
 
         await updateDoc(voteRef, {
             [voteType]: increment(1),
         });
-        res.status(200).json({ success: true, message: `Voted ${voteType} for ${id}` });
+
+        // Return updated stats so the client can display them immediately
+        const updatedDoc = await getDoc(voteRef);
+        const data = updatedDoc.data();
+        res.status(200).json({
+            success: true,
+            hot: data?.hot ?? 0,
+            not: data?.not ?? 0,
+        });
     } catch (error) {
         console.error('Error updating Firebase record:', error);
         res.status(500).json({ error: 'Internal server error' });

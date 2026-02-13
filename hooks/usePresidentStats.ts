@@ -1,14 +1,30 @@
 // hooks/usePresidentStats.ts
 import { useState, useEffect } from 'react';
 import { President } from '../models/presidents';
+import { usePrefetch } from './usePrefetch';
 
 export const usePresidentStats = (president: President) => {
-    const [hot, setHot] = useState<number | null>(null);
-    const [not, setNot] = useState<number | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const { prefetchedData, setPrefetchedData } = usePrefetch();
+    const prefetched = prefetchedData[president.id];
 
-    // Load initial stats
+    const [hot, setHot] = useState<number | null>(prefetched?.hot ?? null);
+    const [not, setNot] = useState<number | null>(prefetched?.not ?? null);
+    const [isLoading, setIsLoading] = useState<boolean>(!prefetched);
+
+    // Load stats from API if not already available from prefetch
     useEffect(() => {
+        if (prefetched) {
+            // Use prefetched data immediately and clear it
+            setHot(prefetched.hot);
+            setNot(prefetched.not);
+            setIsLoading(false);
+            setPrefetchedData(prev => {
+                const { [president.id]: _, ...rest } = prev;
+                return rest;
+            });
+            return;
+        }
+
         const loadInitialStats = async () => {
             setIsLoading(true);
             try {
