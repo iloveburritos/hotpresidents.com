@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
 
-export function currentURL(pathname: string): URL {
+export async function currentURL(pathname: string): Promise<URL> {
   try {
-    const headersList = headers();
+    const headersList = await headers();
     const host = headersList.get("x-forwarded-host") || headersList.get("host");
     const protocol = headersList.get("x-forwarded-proto") || "http";
 
